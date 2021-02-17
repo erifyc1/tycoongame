@@ -8,7 +8,6 @@ public class CameraScript : MonoBehaviour
 	void Start()
 	{
 		transform.position = new Vector3(0, 1, -10);
-		transform.rotation = Vector3.Down;
 	}
 
 	// Update is called once per frame
