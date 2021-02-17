@@ -845,6 +845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4721014944777889769, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: m_TagString
+      value: buildmanager
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
 --- !u!1001 &7119141557190312393
