@@ -19,7 +19,12 @@ public class BuildUI : MonoBehaviour
 
     public void Cube()
     {
-        GameObject cube = Instantiate(cubePre);
-        cube.transform.position = Vector3.zero;
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            GameObject cube = Instantiate(cubePre, Vector3.zero, transform.rotation);
+        }
+
     }
 }
