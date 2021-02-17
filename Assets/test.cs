@@ -8,13 +8,12 @@ public class test : MonoBehaviour
     void Start()
     {
         Debug.Log("The person who created this project drinks water");
-
-		
+        Debug.Log("no u");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
