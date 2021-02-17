@@ -7,7 +7,7 @@ public class CameraScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(0, 1, -10);
+        transform.position = new Vector3(0, 10, 0);
     }
 
     // Update is called once per frame
