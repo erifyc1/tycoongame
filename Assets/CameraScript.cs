@@ -8,6 +8,7 @@ public class CameraScript : MonoBehaviour
 	void Start()
 	{
 		transform.position = new Vector3(0, 1, -10);
+		transform.rotation = new Quaternion(0, 0, 0, 0);
 	}
 
 	// Update is called once per frame
@@ -15,11 +16,15 @@ public class CameraScript : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.W) == true)
 		{
-			transform.position += new Vector3(1, 0, 0);
+			// transform.position += new Vector3(1, 0, 0);
+			transform.Rotate(-5.0f, 0.0f, 0.0f);
+			Debug.Log("W Pressed");
 		}
 		if (Input.GetKeyDown(KeyCode.S) == true)
 		{
-			transform.position += new Vector3(-1, 0, 0);
+			// transform.position += new Vector3(-1, 0, 0);
+			transform.Rotate(5.0f, 0.0f, 0.0f);
+			Debug.Log("S Pressed");
 		}
 	}
 }
