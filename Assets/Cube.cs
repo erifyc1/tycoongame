@@ -13,7 +13,12 @@ public class Cube : MonoBehaviour
 
         if (!placed)
         {
-            transform.position = new Vector3(mouseX, 0, mouseY);
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                transform.position = new Vector3(ray.GetPoint(hit.distance).x, 0, ray.GetPoint(hit.distance).z);
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ public class BuildUI : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            GameObject cube = Instantiate(cubePre, Vector3.zero, transform.rotation);
+            GameObject cube = Instantiate(cubePre, ray.GetPoint(hit.distance), transform.rotation);
         }
 
     }
