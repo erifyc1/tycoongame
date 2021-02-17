@@ -14,15 +14,13 @@ public class CameraScript : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.W) == true)
+		if (Input.GetKeyDown(KeyCode.W))
 		{
-			// transform.position += new Vector3(1, 0, 0);
 			transform.Rotate(-5.0f, 0.0f, 0.0f);
 			Debug.Log("W Pressed");
 		}
-		if (Input.GetKeyDown(KeyCode.S) == true)
+		if (Input.GetKeyDown(KeyCode.S))
 		{
-			// transform.position += new Vector3(-1, 0, 0);
 			transform.Rotate(5.0f, 0.0f, 0.0f);
 			Debug.Log("S Pressed");
 		}
