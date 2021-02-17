@@ -25,7 +25,7 @@ public class BuildUI : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                GameObject cube = Instantiate(cubePre, ray.GetPoint(hit.distance), transform.rotation);
+                GameObject cube = Instantiate(cubePre, ray.GetPoint(hit.distance), Quaternion.Euler(0, 180, 0));
             }
         }
 
