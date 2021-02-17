@@ -24,7 +24,7 @@ public class CameraScript : MonoBehaviour
 	void OnGUI()
 	{
 		float zoomChange = Input.mouseScrollDelta.y * -5;
-		zoom = (zoom + zoomChange < 0) ? 0 : zoom + zoomChange;
+		zoom = (zoom + zoomChange < 10f) ? 10f : zoom + zoomChange;
 		transform.position = new Vector3(transform.position.x, zoom, transform.position.z);
 	}
 }
