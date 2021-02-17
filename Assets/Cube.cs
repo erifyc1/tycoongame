@@ -5,19 +5,23 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
 
-    bool placed = false;
+    private bool placed = false;
+    [SerializeField]
+    Vector3 mousePos;
+    private float closestX;
+    private float closestZ;
     void Update()
     {
-        float mouseX = Input.mousePosition[0];
-        float mouseY = Input.mousePosition[1];
-
         if (!placed)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                transform.position = new Vector3(ray.GetPoint(hit.distance).x, 0, ray.GetPoint(hit.distance).z);
+                mousePos = new Vector3(ray.GetPoint(hit.distance).x, 0, ray.GetPoint(hit.distance).z);
+                closestX = mousePos.x % 10 < 5 ? Mathf.FloorToInt(mousePos.x / 10) * 10 : Mathf.CeilToInt(mousePos.x / 10) * 10;
+                closestZ = mousePos.z % 10 < 5 ? Mathf.FloorToInt(mousePos.z / 10) * 10 : Mathf.CeilToInt(mousePos.z / 10) * 10;
+                transform.position = new Vector3(closestX, 0, closestZ);
             }
         }
     }
