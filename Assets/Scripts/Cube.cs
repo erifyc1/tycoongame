@@ -19,8 +19,8 @@ public class Cube : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 mousePos = new Vector3(ray.GetPoint(hit.distance).x, 0, ray.GetPoint(hit.distance).z);
-                closestX = mousePos.x % 10 < 5 ? Mathf.FloorToInt(mousePos.x / 10) * 10 : Mathf.CeilToInt(mousePos.x / 10) * 10;
-                closestZ = mousePos.z % 10 < 5 ? Mathf.FloorToInt(mousePos.z / 10) * 10 : Mathf.CeilToInt(mousePos.z / 10) * 10;
+                closestX = mousePos.x % 10 < 2 ? Mathf.FloorToInt(mousePos.x / 10) * 10 : mousePos.x % 10 > 8 ? Mathf.CeilToInt(mousePos.x / 10) * 10 : mousePos.x;
+                closestZ = mousePos.z % 10 < 2 ? Mathf.FloorToInt(mousePos.z / 10) * 10 : mousePos.z % 10 > 8 ? Mathf.CeilToInt(mousePos.z / 10) * 10 : mousePos.z;
                 transform.position = new Vector3(closestX, 0, closestZ);
             }
         }
