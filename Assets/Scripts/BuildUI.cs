@@ -6,6 +6,8 @@ public class BuildUI : MonoBehaviour
 {
     [SerializeField]
     GameObject cubePre;
+    private int[][] occupiedTiles = { };
+    public bool placingObject = false;
     void Start()
     {
 
@@ -19,8 +21,9 @@ public class BuildUI : MonoBehaviour
 
     public void Cube()
     {
-        if (GameObject.FindGameObjectWithTag("cube") == null)
+        if (!placingObject)
         {
+            placingObject = true;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))

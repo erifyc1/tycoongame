@@ -10,6 +10,12 @@ public class Cube : MonoBehaviour
     Vector3 mousePos;
     private float closestX;
     private float closestZ;
+    private BuildUI buildUI;
+
+    void Start()
+    {
+        buildUI = GameObject.FindGameObjectWithTag("buildmanager").GetComponent<BuildUI>();
+    }
 
     void OnGUI()
     {
@@ -31,6 +37,7 @@ public class Cube : MonoBehaviour
         {
             placed = true;
             Cursor.visible = true;
+            buildUI.placingObject = false;
         }
     }
 }
