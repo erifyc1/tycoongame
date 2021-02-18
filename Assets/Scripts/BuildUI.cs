@@ -6,6 +6,7 @@ public class BuildUI : MonoBehaviour
 {
     [SerializeField]
     GameObject cubePre;
+    private int[][] occupiedTiles = { };
     void Start()
     {
 
