@@ -24,12 +24,7 @@ public class BuildUI : MonoBehaviour
         if (!placingObject)
         {
             placingObject = true;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject cube = Instantiate(cubePre, ray.GetPoint(hit.distance), Quaternion.Euler(0, 180, 0));
-            }
+            GameObject cube = Instantiate(cubePre, new Vector3(0, 0, 100), Quaternion.Euler(0, 180, 0));
         }
 
     }
