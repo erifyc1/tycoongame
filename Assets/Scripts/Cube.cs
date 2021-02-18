@@ -33,11 +33,12 @@ public class Cube : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !buildUI.GetOccupiedTiles().Contains(new Vector2(transform.position.x, transform.position.z)))
         {
             placed = true;
             Cursor.visible = true;
             buildUI.placingObject = false;
+			buildUI.GetOccupiedTiles().Add(new Vector2(transform.position.x, transform.position.z));
         }
     }
 }
