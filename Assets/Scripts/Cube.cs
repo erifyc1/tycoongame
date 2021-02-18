@@ -22,8 +22,6 @@ public class Cube : MonoBehaviour
             closestZ = point.z % 10 < 5 ? Mathf.FloorToInt(point.z / 10) * 10 : Mathf.CeilToInt(point.z / 10) * 10;
             transform.position = new Vector3(closestX, 0, closestZ);
             Cursor.visible = false;
-
-
         }
     }
 
