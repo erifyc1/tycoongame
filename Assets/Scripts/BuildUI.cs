@@ -27,10 +27,10 @@ public class BuildUI : MonoBehaviour
             placingObject = true;
             GameObject cube = Instantiate(cubePre, new Vector3(0, 0, 100), Quaternion.Euler(0, 180, 0));
         }
-
-
-        public List<Vector2> GetOccupiedTiles()
-        {
-            return occupiedTiles;
-        }
     }
+
+    public List<Vector2> GetOccupiedTiles()
+    {
+        return occupiedTiles;
+    }
+}
