@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 4345170457516330572}
   - component: {fileID: 4330395104248820857}
   - component: {fileID: 5859378605976517141}
+  - component: {fileID: 8089049922571202954}
   m_Layer: 0
   m_Name: base
   m_TagString: conveyor
@@ -290,6 +291,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c579229a15b13064887880180587b2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &8089049922571202954
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826363050940807930}
+  m_Material: {fileID: 13400000, guid: 7872e29c2f680ae4891c209ddc509937, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 0.019999998, z: 0.02000003}
+  m_Center: {x: -5.551115e-17, y: -1.110223e-16, z: 0}
 --- !u!1 &8550299734221428815
 GameObject:
   m_ObjectHideFlags: 0

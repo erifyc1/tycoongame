@@ -15,4 +15,12 @@ public class Conveyor : MonoBehaviour
     {
 
     }
+    void Activate()
+    {
+
+    }
+    void Deactivate()
+    {
+
+    }
 }
