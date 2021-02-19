@@ -10,6 +10,7 @@ public class Generator : MonoBehaviour, IActivatable
     float spawnTime = 5f;
     private float timer = 0;
     private bool producing = false;
+	
     void Start()
     {
 

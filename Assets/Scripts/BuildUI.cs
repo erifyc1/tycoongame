@@ -6,9 +6,8 @@ public class BuildUI : MonoBehaviour
 {
     [SerializeField]
     GameObject[] objectPrefabs;
-
     [SerializeField]
-    private List<Vector2> occupiedTiles = new List<Vector2>();
+    private List<Stack> occupiedTiles = new List<Stack>();
     public bool placingObject = false;
 	GameObject currPlacingObject;
 
@@ -23,17 +22,34 @@ public class BuildUI : MonoBehaviour
 		if (placingObject) {
 			Vector3 objPos = currPlacingObject.transform.position;
 			
-			if (Input.GetMouseButton(0) && !occupiedTiles.Contains(new Vector2(objPos.x, objPos.z)))
+			if (Input.GetMouseButton(0))
 			{
-				// Stack stack = new Stack(objPos.x, objPos.z, Mathf.FloorToInt(objPos.y/10), currPlacingObject);
-				occupiedTiles.Add(new Vector2(objPos.x, objPos.z));
-				Cursor.visible = true;
-				placingObject = false;
-				if (currPlacingObject.GetComponents<IActivatable>().Length != 0)
-                {
-                    currPlacingObject.GetComponents<IActivatable>()[0].Activate();
-                }
-				currPlacingObject = null;
+				if (occupiedTiles.Exists((stack) => stack.x == objPos.x && stack.y == objPos.z)) {
+					Stack tile = occupiedTiles.Find((stack) => stack.x == objPos.x && stack.y == objPos.z);
+					
+					if (!tile.capped) {
+						tile.StackObject(currPlacingObject);
+						if (currPlacingObject.GetComponents<IActivatable>().Length != 0)
+						{
+							currPlacingObject.GetComponents<IActivatable>()[0].Activate();
+						}
+
+						Cursor.visible = true;
+						placingObject = false;
+						currPlacingObject = null;
+					}
+				} else {
+					Stack stack = new Stack(objPos.x, objPos.z, Mathf.FloorToInt(objPos.y/10), currPlacingObject);
+					occupiedTiles.Add(stack);
+					if (currPlacingObject.GetComponents<IActivatable>().Length != 0)
+					{
+						currPlacingObject.GetComponents<IActivatable>()[0].Activate();
+					}
+
+					Cursor.visible = true;
+					placingObject = false;
+					currPlacingObject = null;
+				}
 			}
 		}
     }
@@ -44,7 +60,6 @@ public class BuildUI : MonoBehaviour
         {
             currPlacingObject = Instantiate(objectPrefabs[id], new Vector3(0, 0, 100), Quaternion.Euler(0, 180, 0));
             placingObject = true;
-
         }
     }
 
@@ -56,7 +71,14 @@ public class BuildUI : MonoBehaviour
 
             float closestX = point.x % 10 < 5 ? Mathf.FloorToInt(point.x / 10) * 10 : Mathf.CeilToInt(point.x / 10) * 10;
             float closestZ = point.z % 10 < 5 ? Mathf.FloorToInt(point.z / 10) * 10 : Mathf.CeilToInt(point.z / 10) * 10;
-            currPlacingObject.transform.position = new Vector3(closestX, 0, closestZ);
+
+			if (occupiedTiles.Exists((stack) => stack.x == closestX && stack.y == closestZ)) {
+				Stack stack = occupiedTiles.Find((stack) => stack.x == closestX && stack.y == closestZ);
+				
+				currPlacingObject.transform.position = new Vector3(closestX, stack.height + 10, closestZ);
+			} else {
+				currPlacingObject.transform.position = new Vector3(closestX, 0, closestZ);
+			}
             Cursor.visible = false;
         }
     }
