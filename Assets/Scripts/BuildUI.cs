@@ -25,13 +25,14 @@ public class BuildUI : MonoBehaviour
 			
 			if (Input.GetMouseButton(0) && !occupiedTiles.Contains(new Vector2(objPos.x, objPos.z)))
 			{
-				Stack stack = new Stack(objPos.x, objPos.z, Mathf.FloorToInt(objPos.y/10), currPlacingObject);
+				// Stack stack = new Stack(objPos.x, objPos.z, Mathf.FloorToInt(objPos.y/10), currPlacingObject);
 				occupiedTiles.Add(new Vector2(objPos.x, objPos.z));
 				Cursor.visible = true;
 				placingObject = false;
-                foreach (Component i in currPlacingObject.GetComponents(typeof(MonoBehaviour))) {
+                foreach (Component i in currPlacingObject.GetComponents<Component>()) {
                     Debug.Log(i);
                 }
+				currPlacingObject.GetComponents<IActivatable>()[0].Activate();
 				currPlacingObject = null;
 			}
 		}
