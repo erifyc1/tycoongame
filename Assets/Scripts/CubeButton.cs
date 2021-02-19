@@ -20,6 +20,6 @@ public class CubeButton : MonoBehaviour
 
 	public void SpawnCube()
 	{
-		BM.GetComponent<BuildUI>().Cube();
+		BM.GetComponent<BuildUI>().BuildObject(0);
 	}
 }

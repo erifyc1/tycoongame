@@ -5,7 +5,8 @@ using UnityEngine;
 public class BuildUI : MonoBehaviour
 {
     [SerializeField]
-    GameObject cubePre;
+    GameObject[] objectPrefabs;
+
     private int[][] occupiedTiles = { };
     public bool placingObject = false;
     void Start()
@@ -19,12 +20,19 @@ public class BuildUI : MonoBehaviour
 
     }
 
-    public void Cube()
+    public void BuildObject(int id)
     {
         if (!placingObject)
         {
-            placingObject = true;
-            GameObject cube = Instantiate(cubePre, new Vector3(0, 0, 100), Quaternion.Euler(0, 180, 0));
+            if (objectPrefabs[id] != null) {
+                placingObject = true;
+                GameObject object = Instantiate(objectPrefabs[id], Vector3.zero);
+            }
+            else
+            {
+                Debug.Log("invalid object id");
+            }
+
         }
 
     }
