@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 393651770332917400}
-  - component: {fileID: 6297085717853907913}
   m_Layer: 0
   m_Name: conveyor
   m_TagString: Untagged
@@ -35,18 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6297085717853907913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026073732538823714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c579229a15b13064887880180587b2ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2175206699729987750
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +208,7 @@ GameObject:
   - component: {fileID: 4345170457516330572}
   - component: {fileID: 4330395104248820857}
   - component: {fileID: 8089049922571202954}
+  - component: {fileID: 3936706379946223898}
   m_Layer: 0
   m_Name: base
   m_TagString: conveyor
@@ -304,6 +292,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.019999998, z: 0.02000003}
   m_Center: {x: -5.551115e-17, y: -1.110223e-16, z: 0}
+--- !u!114 &3936706379946223898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7826363050940807930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c579229a15b13064887880180587b2ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conveyorSpeed: 7
 --- !u!1 &8550299734221428815
 GameObject:
   m_ObjectHideFlags: 0
