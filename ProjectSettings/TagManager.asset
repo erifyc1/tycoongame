@@ -6,6 +6,8 @@ TagManager:
   tags:
   - buildmanager
   - cube
+  - conveyor
+  - Generator
   layers:
   - Default
   - TransparentFX

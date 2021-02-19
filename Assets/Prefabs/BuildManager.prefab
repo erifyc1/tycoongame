@@ -46,5 +46,6 @@ MonoBehaviour:
   objectPrefabs:
   - {fileID: 1433493694185946411, guid: 6d6766f495ae050479da7d2a9f144edf, type: 3}
   - {fileID: 1026073732538823714, guid: 0335f1512c0233f43a8fcced37b8c574, type: 3}
+  - {fileID: 8413775693115826815, guid: 748caa8ab3b9dfd428aa15666279e4da, type: 3}
   occupiedTiles: []
   placingObject: 0
