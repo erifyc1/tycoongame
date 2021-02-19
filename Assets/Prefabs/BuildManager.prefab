@@ -43,5 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a490eaaf9127741abbaefea8b0f9be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubePre: {fileID: 13000040736493929, guid: 0335f1512c0233f43a8fcced37b8c574, type: 3}
+  objectPrefabs:
+  - {fileID: 1433493694185946411, guid: 6d6766f495ae050479da7d2a9f144edf, type: 3}
+  - {fileID: 1026073732538823714, guid: 0335f1512c0233f43a8fcced37b8c574, type: 3}
+  occupiedTiles: []
   placingObject: 0
