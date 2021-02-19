@@ -11,14 +11,13 @@ public class BuildUI : MonoBehaviour
     private List<Stack> occupiedTiles = new List<Stack>();
     public bool placingObject = false;
     GameObject currPlacingObject;
-    private bool rKey = false;
     private bool LMB = false;
     private Vector2 mousePos;
 
     public void OnRotate(InputAction.CallbackContext context)
     {
 
-        rKey = context.ReadValue<float>() == 0 ? false : true;
+        if (placingObject && context.ReadValue<float>() == 1) currPlacingObject.transform.Rotate(0, 45, 0);
 
     }
 
@@ -47,7 +46,7 @@ public class BuildUI : MonoBehaviour
         if (placingObject)
         {
             Vector3 objPos = currPlacingObject.transform.position;
-            //if (Input.GetKeyDown("r")) currPlacingObject.transform.Rotate(0, 0, 90);
+
 
             if (LMB)
             {
