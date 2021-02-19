@@ -98,7 +98,7 @@ public class BuildUI : MonoBehaviour
     {
         if (placingObject)
         {
-            Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x/*Event.current.mousePosition.x*/, /*Camera.main.pixelHeight - */mousePos.y/*Event.current.mousePosition.y*/, Camera.main.transform.position.y));
+            Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
 
             float closestX = point.x % 10 < 5 ? Mathf.FloorToInt(point.x / 10) * 10 : Mathf.CeilToInt(point.x / 10) * 10;
             float closestZ = point.z % 10 < 5 ? Mathf.FloorToInt(point.z / 10) * 10 : Mathf.CeilToInt(point.z / 10) * 10;
