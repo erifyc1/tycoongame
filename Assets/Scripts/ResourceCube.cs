@@ -16,6 +16,7 @@ public class ResourceCube : MonoBehaviour
     {
 
     }
+	
     private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.tag == "conveyor")
@@ -23,6 +24,4 @@ public class ResourceCube : MonoBehaviour
             rb.velocity += other.transform.up * Time.deltaTime * other.gameObject.GetComponent<ConveyorScript>().conveyorSpeed;
         }
     }
-
-
 }
