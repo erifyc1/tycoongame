@@ -29,7 +29,10 @@ public class BuildUI : MonoBehaviour
 				occupiedTiles.Add(new Vector2(objPos.x, objPos.z));
 				Cursor.visible = true;
 				placingObject = false;
-				currPlacingObject.GetComponents<IActivatable>()[0].Activate();
+				if (currPlacingObject.GetComponents<IActivatable>().Length != 0)
+                {
+                    currPlacingObject.GetComponents<IActivatable>()[0].Activate();
+                }
 				currPlacingObject = null;
 			}
 		}

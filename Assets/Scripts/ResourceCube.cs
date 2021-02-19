@@ -5,8 +5,7 @@ using UnityEngine;
 public class ResourceCube : MonoBehaviour
 {
     Rigidbody rb;
-    [SerializeField]
-    float conveyorSpeed = 10;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -21,7 +20,7 @@ public class ResourceCube : MonoBehaviour
     {
         if (other.gameObject.tag == "conveyor")
         {
-            rb.velocity += other.transform.up * Time.deltaTime * conveyorSpeed;
+            rb.velocity += other.transform.up * Time.deltaTime * other.gameObject.GetComponent<ConveyorScript>().conveyorSpeed;
         }
     }
 
