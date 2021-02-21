@@ -21,7 +21,8 @@ public class ResourceCube : MonoBehaviour
     {
         if (other.gameObject.tag == "conveyor")
         {
-            rb.velocity += other.transform.up * Time.deltaTime * other.gameObject.GetComponent<ConveyorScript>().conveyorSpeed;
+            Vector2 accel = other.gameObject.GetComponents<IConveyor>()[0].getAcceleration(other.GetContact(0).point) * Time.deltaTime;
+            rb.velocity += new Vector3(accel.x, 0, accel.y)*(1/(rb.velocity.magnitude + 5));
         }
     }
 }
