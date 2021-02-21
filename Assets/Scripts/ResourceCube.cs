@@ -16,13 +16,13 @@ public class ResourceCube : MonoBehaviour
     {
 
     }
-	
+
     private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.tag == "conveyor")
         {
             Vector2 accel = other.gameObject.GetComponents<IConveyor>()[0].getAcceleration(other.GetContact(0).point) * Time.deltaTime;
-            rb.velocity += new Vector3(accel.x, 0, accel.y)*(1/(rb.velocity.magnitude + 5));
+            rb.velocity += new Vector3(accel.x / (Mathf.Abs(rb.velocity.x) + 5), 0, accel.y / (Mathf.Abs(rb.velocity.z) + 5));// * (1 / (rb.velocity.magnitude + 5));
         }
     }
 }

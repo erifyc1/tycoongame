@@ -5,7 +5,7 @@ using UnityEngine;
 public class Generator : MonoBehaviour, IActivatable
 {
     [SerializeField]
-    GameObject resourceCube;
+    GameObject[] resourceObjs;
     [SerializeField]
     float spawnTime = 5f;
     private float timer = 0;
@@ -35,10 +35,8 @@ public class Generator : MonoBehaviour, IActivatable
             if (timer > spawnTime)
             {
                 timer = 0;
-                if (resourceCube != null)
-                {
-                    Instantiate(resourceCube, new Vector3(transform.position.x, transform.position.y + 6, transform.position.z), new Quaternion(0, 0, 0, 0));
-                }
+                Instantiate(resourceObjs[Random.Range(0, resourceObjs.Length)], new Vector3(transform.position.x, transform.position.y + 6, transform.position.z), new Quaternion(0, 0, 0, 0));
+                
             }
         }
 

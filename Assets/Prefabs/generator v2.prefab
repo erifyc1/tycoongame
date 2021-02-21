@@ -224,7 +224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a4b2b6cf8c17f4f8d4deb9d8deded5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceCube: {fileID: 4111808649377119838, guid: 32c97e72fe433f24d84eec8f3c7f94ba, type: 3}
+  resourceObjs:
+  - {fileID: 4111808649377119838, guid: 32c97e72fe433f24d84eec8f3c7f94ba, type: 3}
+  - {fileID: 8720036360990602328, guid: a215fb3bbaa948648a6c0adcd5c8d35f, type: 3}
+  - {fileID: 854515689435154595, guid: 13abab557e616354eb599decbdf336db, type: 3}
   spawnTime: 5
 --- !u!1 &4582509584477709980
 GameObject:
