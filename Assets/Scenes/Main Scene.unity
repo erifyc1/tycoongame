@@ -863,7 +863,6 @@ GameObject:
   - component: {fileID: 882579574}
   - component: {fileID: 882579573}
   - component: {fileID: 882579572}
-  - component: {fileID: 882579571}
   m_Layer: 5
   m_Name: Cube Spawn  Button
   m_TagString: Untagged
@@ -891,18 +890,6 @@ RectTransform:
   m_AnchoredPosition: {x: -853.6, y: -414.5}
   m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &882579571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 882579569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91ff711ae04449d46977352ee3570742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &882579572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,16 +934,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 882579571}
-        m_TargetAssemblyTypeName: CubeButton, Assembly-CSharp
-        m_MethodName: SpawnCube
-        m_Mode: 1
+      - m_Target: {fileID: 1714801453}
+        m_TargetAssemblyTypeName: BuildUI, Assembly-CSharp
+        m_MethodName: BuildObject
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: cube
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &882579573
@@ -1205,6 +1192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91703cde5d54c8440a6efc021276e5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BM: {fileID: 0}
 --- !u!114 &1205776542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1249,16 +1237,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1205776541}
-        m_TargetAssemblyTypeName: GeneratorButton, Assembly-CSharp
-        m_MethodName: SpawnGenerator
-        m_Mode: 1
+      - m_Target: {fileID: 1714801453}
+        m_TargetAssemblyTypeName: BuildUI, Assembly-CSharp
+        m_MethodName: BuildObject
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: generator
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1205776543
@@ -1351,6 +1339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4814594d7b1e68f4fbfe05e8a06ee561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BM: {fileID: 0}
 --- !u!114 &1399077500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1508,6 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4814594d7b1e68f4fbfe05e8a06ee561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BM: {fileID: 0}
 --- !u!114 &2024588066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1654,6 +1644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4814594d7b1e68f4fbfe05e8a06ee561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BM: {fileID: 0}
 --- !u!114 &2131316957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1698,16 +1689,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2131316956}
-        m_TargetAssemblyTypeName: ConveyorButton, Assembly-CSharp
-        m_MethodName: SpawnConveyor
-        m_Mode: 1
+      - m_Target: {fileID: 1714801453}
+        m_TargetAssemblyTypeName: BuildUI, Assembly-CSharp
+        m_MethodName: BuildObject
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: conveyor
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2131316958
@@ -1871,6 +1862,86 @@ PrefabInstance:
       propertyPath: cubePre
       value: 
       objectReference: {fileID: 1433493694185946411, guid: 6d6766f495ae050479da7d2a9f144edf, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[0]
+      value: cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[1]
+      value: conveyor
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[2]
+      value: conv_left
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[3]
+      value: conv_right
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[4]
+      value: conv_m_left
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[5]
+      value: conv_m_right
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[6]
+      value: conv_m_both
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[7]
+      value: conv_m_full
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objNames.Array.data[8]
+      value: generator
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1665012793540104843, guid: a76ebfef5b749cc479883190d3a594d8, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 3686092454671043609, guid: 0335f1512c0233f43a8fcced37b8c574, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 73893968806970790, guid: 8090987c03ade7b4ab87e38db5196a89, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 444354112653099924, guid: 43d19ef32ded20c4694e0275a27eaca5, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 584574496540667055, guid: 4ffb9bf1e0c0c424ab74d49467003bb0, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 1788724405268693669, guid: 48768d661c5c5d94cada14e0aadbc2bf, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[6]
+      value: 
+      objectReference: {fileID: 5749780321485390662, guid: fd62e907ef3194c4a8d56c12a6bc0c5f, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[7]
+      value: 
+      objectReference: {fileID: 5795559695579671657, guid: a574792382af5b1428b06a5b9b62b3fd, type: 3}
+    - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
+      propertyPath: objPrefabs.Array.data[8]
+      value: 
+      objectReference: {fileID: 4095270068480567721, guid: ec1965ca3e8472b4a86055015391abea, type: 3}
     - target: {fileID: 4631576805833697758, guid: 8fd4423c33173194da3033a989f1ba8e, type: 3}
       propertyPath: objectPrefabs.Array.size
       value: 5
