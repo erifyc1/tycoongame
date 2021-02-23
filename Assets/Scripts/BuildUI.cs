@@ -190,12 +190,10 @@ public class BuildUI : MonoBehaviour
     private Dictionary<string, GameObject> GetAdjacentTiles(float x, float z, int stackPos)
     {
         Dictionary<string, GameObject> ret = new Dictionary<string, GameObject>();
+		Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
 
-        float cx = currPlacingObject.transform.position.x;
-        float cz = currPlacingObject.transform.position.z;
-
-        float closestX = cx % 10 < 5 ? Mathf.FloorToInt(cx / 10) * 10 : Mathf.CeilToInt(cx / 10) * 10;
-        float closestZ = cz % 10 < 5 ? Mathf.FloorToInt(cz / 10) * 10 : Mathf.CeilToInt(cz / 10) * 10;
+        float closestX = point.x % 10 < 5 ? Mathf.FloorToInt(point.x / 10) * 10 : Mathf.CeilToInt(point.x / 10) * 10;
+        float closestZ = point.z % 10 < 5 ? Mathf.FloorToInt(point.z / 10) * 10 : Mathf.CeilToInt(point.z / 10) * 10;
 
         bool inLayer = currPlacingObject.GetComponent<CommonProperties>().GetStackPos() == stackPos;
         
@@ -205,7 +203,6 @@ public class BuildUI : MonoBehaviour
         else if (inLayer && closestX == x + 10 && closestZ == z)
         {
             ret.Add("east", currPlacingObject);
-            //Debug.Log("east");
         }
 
         if (occupiedTiles.Exists((stack) => stack.x == x - 10 && stack.y == z)) {
@@ -214,7 +211,6 @@ public class BuildUI : MonoBehaviour
         else if (inLayer && closestX == x - 10 && closestZ == z)
         {
             ret.Add("west", currPlacingObject);
-            //Debug.Log("west");
         }
 
         if (occupiedTiles.Exists((stack) => stack.x == x && stack.y == z - 10)) {
@@ -223,7 +219,6 @@ public class BuildUI : MonoBehaviour
         else if (inLayer && closestX == x && closestZ == z - 10)
         {
             ret.Add("south", currPlacingObject);
-            //Debug.Log("south");
         }
 
         if (occupiedTiles.Exists((stack) => stack.x == x && stack.y == z + 10)) {
@@ -232,49 +227,41 @@ public class BuildUI : MonoBehaviour
         else if (inLayer && closestX == x + 10 && closestZ == z + 10)
         {
             ret.Add("north", currPlacingObject);
-            //Debug.Log("north");
-        }
-        foreach (string s in ret.Keys) {
-            Debug.Log(s);
         }
         return ret;
     }
 
     private void UpdateBlock(float x, float z, int stackPos) {
         if (occupiedTiles.Exists((stack) => stack.x == x && stack.y == z)) {
-            Dictionary<string, GameObject> adjBlocks = GetAdjacentTiles(x, z, stackPos);
-            Stack targetStack = occupiedTiles.Find((stack) => stack.x == x && stack.y == z);
-            GameObject targetBlock = targetStack.objs[stackPos];
+			Dictionary<string, GameObject> adjBlocks = GetAdjacentTiles(x, z, stackPos);
+			if (adjBlocks.Count != 0) {
+				Stack targetStack = occupiedTiles.Find((stack) => stack.x == x && stack.y == z);
+				GameObject targetBlock = targetStack.objs[stackPos];
 
-            GameObject northBlock = adjBlocks.ContainsKey("north") ? adjBlocks["north"] : null;
-            GameObject eastBlock = adjBlocks.ContainsKey("east") ? adjBlocks["east"] : null;
-            GameObject southBlock = adjBlocks.ContainsKey("south") ? adjBlocks["south"] : null;
-            GameObject westBlock = adjBlocks.ContainsKey("west") ? adjBlocks["west"] : null;
+				GameObject northBlock = adjBlocks.ContainsKey("north") ? adjBlocks["north"] : null;
+				GameObject eastBlock = adjBlocks.ContainsKey("east") ? adjBlocks["east"] : null;
+				GameObject southBlock = adjBlocks.ContainsKey("south") ? adjBlocks["south"] : null;
+				GameObject westBlock = adjBlocks.ContainsKey("west") ? adjBlocks["west"] : null;
 
-            bool northExists = northBlock != null && northBlock.tag == "convVariant";
-            bool eastExists = eastBlock != null && eastBlock.tag == "convVariant";
-            bool southExists = southBlock != null && southBlock.tag == "convVariant";
-            bool westExists = westBlock != null && westBlock.tag == "convVariant";
+				bool northExists = northBlock != null && northBlock.tag == "convVariant";
+				bool eastExists = eastBlock != null && eastBlock.tag == "convVariant";
+				bool southExists = southBlock != null && southBlock.tag == "convVariant";
+				bool westExists = westBlock != null && westBlock.tag == "convVariant";
 
-            bool north = northExists && northBlock.GetComponent<CommonProperties>().GetFacing() == Direction.SOUTH;
-            bool east = eastExists && eastBlock.GetComponent<CommonProperties>().GetFacing() == Direction.WEST;
-            bool south = southExists && southBlock.GetComponent<CommonProperties>().GetFacing() == Direction.NORTH;
-            bool west = westExists && westBlock.GetComponent<CommonProperties>().GetFacing() == Direction.EAST;
+				bool north = northExists && northBlock.GetComponent<CommonProperties>().GetFacing() == Direction.SOUTH;
+				bool east = eastExists && eastBlock.GetComponent<CommonProperties>().GetFacing() == Direction.WEST;
+				bool south = southExists && southBlock.GetComponent<CommonProperties>().GetFacing() == Direction.NORTH;
+				bool west = westExists && westBlock.GetComponent<CommonProperties>().GetFacing() == Direction.EAST;
 
-            string prefabName = Utils.GetDirection(targetBlock.GetComponent<CommonProperties>().GetFacing(), north, east, south, west);
-            foreach (string s in adjBlocks.Keys) {
-                Debug.Log(s);
-            }
-            //Debug.Log(new Vector2(northExists ? 1 : 0, southExists ? 1 : 0));
-            //Debug.Log(new Vector2(eastExists ? 1 : 0, westExists ? 1 : 0));
-            //Debug.Log(prefabName);
+				string prefabName = Utils.GetDirection(targetBlock.GetComponent<CommonProperties>().GetFacing(), north, east, south, west);
 
-            if (targetBlock.name != prefabName) {
-                Direction objDir = targetBlock.GetComponent<CommonProperties>().GetFacing();
-                Destroy(targetBlock);
-                targetStack.objs[stackPos] = Instantiate(objMap[prefabName], new Vector3(x, stackPos * 10, z), Quaternion.Euler(0, 0, 0));
-                targetStack.objs[stackPos].GetComponent<CommonProperties>().SetDirection(objDir);
-            }
+				if (targetBlock.name != prefabName) {
+					Direction objDir = targetBlock.GetComponent<CommonProperties>().GetFacing();
+					Destroy(targetBlock);
+					targetStack.objs[stackPos] = Instantiate(objMap[prefabName], new Vector3(x, stackPos * 10, z), Quaternion.Euler(0, 0, 0));
+					targetStack.objs[stackPos].GetComponent<CommonProperties>().SetDirection(objDir);
+				}
+			}
         }
     }
 }
