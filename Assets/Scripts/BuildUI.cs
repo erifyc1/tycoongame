@@ -12,7 +12,7 @@ public class BuildUI : MonoBehaviour
     GameObject[] objPrefabs;
 
     [SerializeField]
-    private List<Stack> occupiedTiles = new List<Stack>();
+    public List<Stack> occupiedTiles = new List<Stack>();
 
     Dictionary<string, GameObject> objMap = new Dictionary<string, GameObject>();
     public bool placingObject = false;
