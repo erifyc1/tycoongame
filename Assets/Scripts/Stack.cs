@@ -16,8 +16,8 @@ public class Stack {
 		this.x = x;
 		this.y = y;
 		this.height = height;
-		GameObject topObj = objs[objs.Length - 1];
-		capped = topObj.GetComponents<MonoBehaviour>().Length != 0 && !(topObj.GetComponents<MonoBehaviour>()[0] is IStackable);
+		GameObject topObj = objs.Length != 0 ? objs[objs.Length - 1] : null;
+		capped = topObj && topObj.GetComponents<MonoBehaviour>().Length != 0 && !(topObj.GetComponents<MonoBehaviour>()[0] is IStackable);
 		foreach (GameObject obj in objs)
 		{
 			this.objs.Add(obj);

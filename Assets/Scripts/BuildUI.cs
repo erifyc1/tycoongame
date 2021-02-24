@@ -176,11 +176,11 @@ public class BuildUI : MonoBehaviour
             {
                 Stack stack = occupiedTiles.Find((stack) => stack.x == closestX && stack.y == closestZ);
 
-                currPlacingObject.transform.position = new Vector3(closestX, stack.height + 10, closestZ);
+                currPlacingObject.transform.position = new Vector3(closestX, stack.height + 15, closestZ);
             }
             else
             {
-                currPlacingObject.transform.position = new Vector3(closestX, 0, closestZ);
+                currPlacingObject.transform.position = new Vector3(closestX, 5, closestZ);
             }
             Cursor.visible = false;
         }
