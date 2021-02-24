@@ -44,6 +44,16 @@ public class TerrainGenerator : MonoBehaviour
     void Update() { }
     void NewBlock(Vector3 blockPos)
     {
+		BuildUI buildUI = GameObject.FindGameObjectWithTag("buildmanager").GetComponent<BuildUI>() as BuildUI;
+		if (!buildUI.occupiedTiles.Exists((stack) => stack.x == blockPos.x && stack.y == blockPos.z)) {
+			GameObject nullObj = new GameObject("nullobj", typeof(NullObject));
+			Stack stack = new Stack(blockPos.x, blockPos.z, 10, nullObj);
+			buildUI.occupiedTiles.Add(stack);
+		} else {
+			GameObject nullObj = new GameObject("nullobj", typeof(NullObject));
+			Stack stack = buildUI.occupiedTiles.Find((stack) => stack.x == blockPos.x && stack.y == blockPos.z);
+			stack.StackObject(nullObj);
+		}
         GameObject block = Instantiate(newTerrainBlock, blockPos, Quaternion.identity);
         block.transform.parent = transform;
         Combine(block);
