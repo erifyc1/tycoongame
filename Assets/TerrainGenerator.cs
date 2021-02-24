@@ -49,7 +49,9 @@ public class TerrainGenerator : MonoBehaviour
 		for (int i = 0; i < blockPos.y; i++) {
 			objs[i] = new GameObject("nullobj", typeof(NullObject));
 		}
-		Stack stack = new Stack(blockPos.x, blockPos.z, (int) blockPos.y * 10, objs);
+
+        Vector3 bottomLeft = new Vector3(-xBlocks*5, -5, -zBlocks*5);
+		Stack stack = new Stack(bottomLeft.x + blockPos.x, bottomLeft.z + blockPos.z, (int) (bottomLeft.y + blockPos.y) - 10, objs);
 		buildUI.occupiedTiles.Add(stack);
         GameObject block = Instantiate(newTerrainBlock, blockPos, Quaternion.identity);
         block.transform.parent = transform;
