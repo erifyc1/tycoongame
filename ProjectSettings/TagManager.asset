@@ -8,6 +8,8 @@ TagManager:
   - cube
   - conveyor
   - Generator
+  - convVariant
+  - nObjContainer
   layers:
   - Default
   - TransparentFX
