@@ -19,6 +19,8 @@ public class CameraScript : MonoBehaviour
 
 	private Vector2 scroll;
 
+	[SerializeField] Vector3 chunkPos;
+
     public void OnVertical(InputAction.CallbackContext context)
     {
         
@@ -56,17 +58,24 @@ public class CameraScript : MonoBehaviour
         scroll = context.ReadValue<Vector2>();
         
     }
+
+	public Vector3 GetChunk()
+	{
+		return chunkPos;
+	}
 	// Start is called before the first frame update
 	void Start()
 	{
-		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.lockState = CursorLockMode.Locked;
 		transform.position = new Vector3(0, 50, 0);
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		
+		chunkPos = new Vector3((int) transform.position.x / 200, 0, (int) transform.position.z / 200);
+
+
 		float RotationX = speed * deltaPos.x * Time.deltaTime;
 		float RotationY = speed * deltaPos.y * Time.deltaTime;
 		
