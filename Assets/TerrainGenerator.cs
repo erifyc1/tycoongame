@@ -44,7 +44,6 @@ public class TerrainGenerator : MonoBehaviour
     void Update() { }
     void NewBlock(Vector3 blockPos)
     {
-		Debug.Log("blockPos.y: " + blockPos.y);
 		BuildUI buildUI = GameObject.FindGameObjectWithTag("buildmanager").GetComponent<BuildUI>() as BuildUI;
 		GameObject[] objs = new GameObject[blockPos.y == 0 ? 0 : Mathf.FloorToInt(blockPos.y / 10) - 1];
 		for (int i = 0; i < blockPos.y / 10 - 1; i++) {
