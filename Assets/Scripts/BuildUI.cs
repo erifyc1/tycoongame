@@ -13,6 +13,7 @@ public class BuildUI : MonoBehaviour
 
     public List<Stack> occupiedTiles = new List<Stack>();
 
+
     Dictionary<string, GameObject> objMap = new Dictionary<string, GameObject>();
     public bool placingObject = false;
     GameObject currPlacingObject;
@@ -20,6 +21,7 @@ public class BuildUI : MonoBehaviour
     private Vector2 mousePos;
 
     private void Awake() {
+
         for (int i = 0; i < objPrefabs.Length; i++) {
             objMap.Add(objNames[i], objPrefabs[i]);
         }
