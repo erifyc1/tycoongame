@@ -19,6 +19,9 @@ public class CameraScript : MonoBehaviour
 
 	private Vector2 scroll;
 
+	[SerializeField] float chunkUpdateTime = 5f;
+	private float timer = 0f;
+
 	[SerializeField] Vector3 chunkPos;
 
     public void OnVertical(InputAction.CallbackContext context)
@@ -73,7 +76,11 @@ public class CameraScript : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		chunkPos = new Vector3((int) transform.position.x / 200, 0, (int) transform.position.z / 200);
+		timer += Time.deltaTime;
+		if (timer >= chunkUpdateTime)
+		{
+			chunkPos = new Vector3((int) transform.position.x / 200, 0, (int) transform.position.z / 200);
+		}
 
 
 		float RotationX = speed * deltaPos.x * Time.deltaTime;

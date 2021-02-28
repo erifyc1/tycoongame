@@ -13,6 +13,9 @@ public class MeshGenerator : MonoBehaviour
     private Vector3 currOccupiedChunk;
     private CameraScript camScript;
 
+    [SerializeField] float chunkUpdateTime = 3f;
+	private float timer = 0f;
+
     private int xSize = 200; // per chunk
     private int zSize = 200; // per chunk
     void Start()
@@ -136,7 +139,7 @@ public class MeshGenerator : MonoBehaviour
         meshRenderer.material = mat;
 
         UpdateMesh(mesh, meshCollider);
-        //chunkObj.SetActive(true);
+        chunkObj.SetActive(true);
     }
 
 
@@ -154,11 +157,15 @@ public class MeshGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 c = camScript.GetChunk();
-        if (c != currOccupiedChunk)
+        timer += Time.deltaTime;
+        if (timer >= chunkUpdateTime)
         {
-            currOccupiedChunk = c;
-            StartCoroutine(LoadRadius(c, 3));
+            Vector3 c = camScript.GetChunk();
+            if (c != currOccupiedChunk)
+            {
+                currOccupiedChunk = c;
+                StartCoroutine(LoadRadius(c, 3));
+            }
         }
     }
 }
