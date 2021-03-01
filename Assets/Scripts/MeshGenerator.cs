@@ -26,7 +26,7 @@ public class MeshGenerator : MonoBehaviour
         currOccupiedChunk = Vector3.zero;
         chunks = new List<Chunk>();
         CalcTriangles();
-        LoadRadius(currOccupiedChunk, 3);
+        StartCoroutine(LoadRadius(currOccupiedChunk, 3));
         
         //transform.position = new Vector3(-0.5f*xSize, 0, -0.5f*zSize);
         
@@ -62,7 +62,7 @@ public class MeshGenerator : MonoBehaviour
             for (int j=-r; j<=r; j++)
             {
                 LoadChunk((int) center.x + i, (int) center.z + j);
-                yield return new WaitForSeconds(0.01f);
+                yield return null;//new WaitForSeconds(0.01f);
             }
         }
 
@@ -97,63 +97,53 @@ public class MeshGenerator : MonoBehaviour
         }
         else 
         {
-			Thread t = new Thread(new ParameterizedThreadStart(this.GenerateChunk));
-			t.Start((x, z));
-            Thread.Sleep(0);
-            // GenerateChunk(x, z);
+			//Thread t = new Thread(new ParameterizedThreadStart(this.GenerateChunk));
+			//t.Start((x, z));
+            //Thread.Sleep(0);
+            StartCoroutine(GenerateChunk(x, z));
         }
     }
 
 
-    void GenerateChunk(object positions)
+    IEnumerator GenerateChunk(int xPos, int zPos)
     {
-        Debug.Log("hi");
-		try {
-			(int xPos, int zPos) = (Tuple<int, int>) positions;
-			GameObject chunkObj = new GameObject();
+        GameObject chunkObj = new GameObject();
 
-			chunkObj.SetActive(false);
-			chunkObj.transform.position = new Vector3(xPos*200, 0, zPos*200);
-			chunkObj.name = "Chunk (" + xPos + ", " + zPos + ")";
-			chunkObj.transform.parent = transform;
-			chunks.Add(new Chunk(xPos, zPos, chunkObj));
+        chunkObj.SetActive(false);
+        chunkObj.transform.position = new Vector3(xPos*200, 0, zPos*200);
+        chunkObj.name = "Chunk (" + xPos + ", " + zPos + ")";
+        chunkObj.transform.parent = transform;
+        chunks.Add(new Chunk(xPos, zPos, chunkObj));
 
-			vertices = new Vector3[(xSize + 1) * (zSize + 1)];
-			uvs = new Vector2[(xSize + 1) * (zSize + 1)];
+        vertices = new Vector3[(xSize + 1) * (zSize + 1)];
+        uvs = new Vector2[(xSize + 1) * (zSize + 1)];
 
-			for (int z = 0, i = 0; z <= zSize; z++)
-			{
-				for (int x = 0; x <= xSize; x++)
-				{
-					float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));
-					vertices[i] = new Vector3(x, y, z);
-					uvs[i] = new Vector2(x, z);
-					i++;
-				}
-			}
+        for (int z = 0, i = 0; z <= zSize; z++)
+        {
+            for (int x = 0; x <= xSize; x++)
+            {
+                float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));
+                vertices[i] = new Vector3(x, y, z);
+                uvs[i] = new Vector2(x, z);
+                i++;
+            }
+        }
+        Mesh mesh = new Mesh();
+        MeshCollider meshCollider = new MeshCollider();
+        MeshRenderer meshRenderer = new MeshRenderer();
 
-			Mesh mesh = new Mesh();
-			MeshCollider meshCollider = new MeshCollider();
-			MeshRenderer meshRenderer = new MeshRenderer();
+        chunkObj.AddComponent<MeshFilter>();
+        chunkObj.AddComponent<MeshCollider>();
+        chunkObj.AddComponent<MeshRenderer>();
 
-			chunkObj.AddComponent<MeshFilter>();
-			chunkObj.AddComponent<MeshCollider>();
-			chunkObj.AddComponent<MeshRenderer>();
+        mesh = chunkObj.GetComponent<MeshFilter>().mesh;
+        meshCollider = chunkObj.GetComponent<MeshCollider>();
+        meshRenderer = chunkObj.GetComponent<MeshRenderer>();
+        meshRenderer.material = mat;
 
-			mesh = chunkObj.GetComponent<MeshFilter>().mesh;
-			meshCollider = chunkObj.GetComponent<MeshCollider>();
-			meshRenderer = chunkObj.GetComponent<MeshRenderer>();
-			meshRenderer.material = mat;
-
-			UpdateMesh(mesh, meshCollider);
-			chunkObj.SetActive(true);
-		}
-		catch (InvalidCastException) {
-			Debug.Log("Someone fucked up the GenerateChunk params");
-		}
-		catch (Exception) {
-			Debug.Log("Someone fucked up GenerateChunk so hard the first catch didn't even catch it");
-		}
+        UpdateMesh(mesh, meshCollider);
+        chunkObj.SetActive(true);
+        yield return null;
     }
 
 

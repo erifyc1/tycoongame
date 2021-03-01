@@ -91,7 +91,13 @@ public class CameraScript : MonoBehaviour
 		CameraRotation.x -= RotationY;
 		CameraRotation.y += RotationX;
 
-		CameraRotation.x = CameraRotation.x > 90 ? 90 : CameraRotation.x < -90 ? -90 : CameraRotation.x;
+		Debug.Log(new Vector2(CameraRotation.x, CameraRotation.y));
+
+		if (CameraRotation.x > 90 && CameraRotation.x < 270)
+		{
+			CameraRotation.x = CameraRotation.x > 180 ? 270 : 90;
+		}
+		//CameraRotation.x = CameraRotation.x > 90 ? 90 : CameraRotation.x < -90 ? -90 : CameraRotation.x;
 		//CameraRotation.y = CameraRotation.y > 90 ? 90 : CameraRotation.y < -90 ? -90 : CameraRotation.y;
 		
 		Camera.main.transform.rotation = Quaternion.Euler(CameraRotation);
