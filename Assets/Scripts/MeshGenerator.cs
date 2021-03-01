@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System;
 
 [RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
@@ -96,52 +97,61 @@ public class MeshGenerator : MonoBehaviour
         }
         else 
         {
-			Thread t = new Thread(GenerateChunk);
-			t.Start(x, z);
+			Thread t = new Thread(new ParameterizedThreadStart(this.GenerateChunk));
+			t.Start((x, z));
             // GenerateChunk(x, z);
         }
     }
 
 
-    void GenerateChunk(int xPos, int zPos)
+    void GenerateChunk(object positions)
     {
-        GameObject chunkObj = new GameObject();
+		try {
+			(int xPos, int zPos) = (Tuple<int, int>) positions;
+			GameObject chunkObj = new GameObject();
 
-        chunkObj.SetActive(false);
-        chunkObj.transform.position = new Vector3(xPos*200, 0, zPos*200);
-        chunkObj.name = "Chunk (" + xPos + ", " + zPos + ")";
-        chunkObj.transform.parent = transform;
-        chunks.Add(new Chunk(xPos, zPos, chunkObj));
+			chunkObj.SetActive(false);
+			chunkObj.transform.position = new Vector3(xPos*200, 0, zPos*200);
+			chunkObj.name = "Chunk (" + xPos + ", " + zPos + ")";
+			chunkObj.transform.parent = transform;
+			chunks.Add(new Chunk(xPos, zPos, chunkObj));
 
-        vertices = new Vector3[(xSize + 1) * (zSize + 1)];
-        uvs = new Vector2[(xSize + 1) * (zSize + 1)];
+			vertices = new Vector3[(xSize + 1) * (zSize + 1)];
+			uvs = new Vector2[(xSize + 1) * (zSize + 1)];
 
-        for (int z = 0, i = 0; z <= zSize; z++)
-        {
-            for (int x = 0; x <= xSize; x++)
-            {
-                float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));
-                vertices[i] = new Vector3(x, y, z);
-                uvs[i] = new Vector2(x, z);
-                i++;
-            }
-        }
+			for (int z = 0, i = 0; z <= zSize; z++)
+			{
+				for (int x = 0; x <= xSize; x++)
+				{
+					float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));
+					vertices[i] = new Vector3(x, y, z);
+					uvs[i] = new Vector2(x, z);
+					i++;
+				}
+			}
 
-        Mesh mesh = new Mesh();
-        MeshCollider meshCollider = new MeshCollider();
-        MeshRenderer meshRenderer = new MeshRenderer();
+			Mesh mesh = new Mesh();
+			MeshCollider meshCollider = new MeshCollider();
+			MeshRenderer meshRenderer = new MeshRenderer();
 
-        chunkObj.AddComponent<MeshFilter>();
-        chunkObj.AddComponent<MeshCollider>();
-        chunkObj.AddComponent<MeshRenderer>();
+			chunkObj.AddComponent<MeshFilter>();
+			chunkObj.AddComponent<MeshCollider>();
+			chunkObj.AddComponent<MeshRenderer>();
 
-        mesh = chunkObj.GetComponent<MeshFilter>().mesh;
-        meshCollider = chunkObj.GetComponent<MeshCollider>();
-        meshRenderer = chunkObj.GetComponent<MeshRenderer>();
-        meshRenderer.material = mat;
+			mesh = chunkObj.GetComponent<MeshFilter>().mesh;
+			meshCollider = chunkObj.GetComponent<MeshCollider>();
+			meshRenderer = chunkObj.GetComponent<MeshRenderer>();
+			meshRenderer.material = mat;
 
-        UpdateMesh(mesh, meshCollider);
-        chunkObj.SetActive(true);
+			UpdateMesh(mesh, meshCollider);
+			chunkObj.SetActive(true);
+		}
+		catch (InvalidCastException) {
+			Debug.Log("Someone fucked up the GenerateChunk params");
+		}
+		catch (Exception) {
+			Debug.Log("Someone fucked up GenerateChunk so hard the first catch didn't even catch it");
+		}
     }
 
 
