@@ -23,17 +23,34 @@ public class MeshGenerator : MonoBehaviour
         camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
         currOccupiedChunk = Vector3.zero;
         chunks = new List<Chunk>();
-        GenerateChunk(0, 0);
-        GenerateChunk(1, 0);
-        GenerateChunk(2, 0);
-        GenerateChunk(0, 1);
-        GenerateChunk(1, 1);
-        GenerateChunk(2, 1);
-        GenerateChunk(0, 2);
-        GenerateChunk(1, 2);
-        GenerateChunk(2, 2);
+        CalcTriangles();
+        LoadRadius(currOccupiedChunk, 3);
+        
         //transform.position = new Vector3(-0.5f*xSize, 0, -0.5f*zSize);
         
+    }
+
+    void CalcTriangles()
+    {
+        triangles = new int[xSize * zSize * 6];
+        int vert = 0;
+        int tris = 0;
+
+        for (int z = 0; z < zSize; z++)
+        {
+            for (int x = 0; x < xSize; x++)
+            {
+                triangles[tris] = vert;
+                triangles[tris + 1] = vert + xSize + 1;
+                triangles[tris + 2] = vert + 1;
+                triangles[tris + 3] = vert + 1;
+                triangles[tris + 4] = vert + xSize + 1;
+                triangles[tris + 5] = vert + xSize + 2;
+                vert++;
+                tris += 6;
+            }
+            vert++;
+        }
     }
 
     IEnumerator LoadRadius(Vector3 center, int r)
@@ -105,26 +122,6 @@ public class MeshGenerator : MonoBehaviour
                 uvs[i] = new Vector2(x, z);
                 i++;
             }
-        }
-
-        triangles = new int[xSize * zSize * 6];
-        int vert = 0;
-        int tris = 0;
-
-        for (int z = 0; z < zSize; z++)
-        {
-            for (int x = 0; x < xSize; x++)
-            {
-                triangles[tris] = vert;
-                triangles[tris + 1] = vert + xSize + 1;
-                triangles[tris + 2] = vert + 1;
-                triangles[tris + 3] = vert + 1;
-                triangles[tris + 4] = vert + xSize + 1;
-                triangles[tris + 5] = vert + xSize + 2;
-                vert++;
-                tris += 6;
-            }
-            vert++;
         }
 
         Mesh mesh = new Mesh();
