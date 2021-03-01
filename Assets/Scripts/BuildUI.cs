@@ -20,6 +20,8 @@ public class BuildUI : MonoBehaviour
     private bool LMB = false;
     private Vector2 mousePos;
 
+    private bool raycastPlace = true;
+
     private void Awake() {
 
         for (int i = 0; i < objPrefabs.Length; i++) {
@@ -83,7 +85,7 @@ public class BuildUI : MonoBehaviour
                         currPlacingObject.GetComponents<IActivatable>()[0].Activate();
                     }
 
-                    Cursor.visible = true;
+                    //Cursor.visible = true;
                     placingObject = false;
                     currPlacingObject = null;
                 }
@@ -98,7 +100,7 @@ public class BuildUI : MonoBehaviour
                     currPlacingObject.GetComponents<IActivatable>()[0].Activate();
                 }
 
-                Cursor.visible = true;
+                //Cursor.visible = true;
                 placingObject = false;
                 currPlacingObject = null;
             }
@@ -126,10 +128,27 @@ public class BuildUI : MonoBehaviour
     {
         if (placingObject)
         {
-            Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
+            float closestX = 0f;
+            float closestZ = 0f;
+            if (raycastPlace)
+            {
+                var ray = Camera.main.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Vector3 mousePos = new Vector3(ray.GetPoint(hit.distance).x, 0, ray.GetPoint(hit.distance).z);
 
-            float closestX = point.x % 10 < 5 ? Mathf.FloorToInt(point.x / 10) * 10 : Mathf.CeilToInt(point.x / 10) * 10;
-            float closestZ = point.z % 10 < 5 ? Mathf.FloorToInt(point.z / 10) * 10 : Mathf.CeilToInt(point.z / 10) * 10;
+                    closestX = mousePos.x % 10 < 5 ? Mathf.FloorToInt(mousePos.x / 10) * 10 : mousePos.x % 10 >= 5 ? Mathf.CeilToInt(mousePos.x / 10) * 10 : mousePos.x;
+                    closestZ = mousePos.z % 10 < 5 ? Mathf.FloorToInt(mousePos.z / 10) * 10 : mousePos.z % 10 >= 5 ? Mathf.CeilToInt(mousePos.z / 10) * 10 : mousePos.z;
+                }
+            }
+            else
+            {
+                Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
+
+                closestX = point.x % 10 < 5 ? Mathf.FloorToInt(point.x / 10) * 10 : Mathf.CeilToInt(point.x / 10) * 10;
+                closestZ = point.z % 10 < 5 ? Mathf.FloorToInt(point.z / 10) * 10 : Mathf.CeilToInt(point.z / 10) * 10;
+            }
 
             if (currPlacingObject.tag == "convVariant")
             {
@@ -265,4 +284,55 @@ public class BuildUI : MonoBehaviour
 			}
         }
     }
+
+    public void on1(InputAction.CallbackContext context)
+    {
+        BuildObject("cube");
+    }
+
+    public void on2(InputAction.CallbackContext context)
+    {
+        BuildObject("conveyor");
+    }
+
+    public void on3(InputAction.CallbackContext context)
+    {
+        BuildObject("generator");
+    }
+    
+    public void on4(InputAction.CallbackContext context)
+    {
+        
+    }
+
+    public void on5(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public void on6(InputAction.CallbackContext context)
+    {
+        
+    }
+    
+    public void on7(InputAction.CallbackContext context)
+    {
+
+    }
+    
+    public void on8(InputAction.CallbackContext context)
+    {
+        
+    }
+
+    public void on9(InputAction.CallbackContext context)
+    {
+
+    }
+    
+    public void on0(InputAction.CallbackContext context)
+    {
+        
+    }
+
 }
