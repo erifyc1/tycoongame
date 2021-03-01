@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 [RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
@@ -95,7 +96,9 @@ public class MeshGenerator : MonoBehaviour
         }
         else 
         {
-            GenerateChunk(x, z);
+			Thread t = new Thread(GenerateChunk);
+			t.Start(x, z);
+            // GenerateChunk(x, z);
         }
     }
 
