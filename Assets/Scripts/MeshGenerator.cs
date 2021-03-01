@@ -99,6 +99,7 @@ public class MeshGenerator : MonoBehaviour
         {
 			Thread t = new Thread(new ParameterizedThreadStart(this.GenerateChunk));
 			t.Start((x, z));
+            Thread.Sleep(0);
             // GenerateChunk(x, z);
         }
     }
@@ -106,6 +107,7 @@ public class MeshGenerator : MonoBehaviour
 
     void GenerateChunk(object positions)
     {
+        Debug.Log("hi");
 		try {
 			(int xPos, int zPos) = (Tuple<int, int>) positions;
 			GameObject chunkObj = new GameObject();
