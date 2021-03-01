@@ -62,17 +62,19 @@ public class MeshGenerator : MonoBehaviour
 
     void UnloadChunk(int x, int z)
     {
-        if (chunks.Exists((c) => c.GetPosition() == new Vector3(x, 0, z)))
+		Chunk chunk = chunks.Find((c) => c.GetPosition() == new Vector3(x, 0, z));
+        if (chunk != null)
         {
-            chunks.Find((c) => c.GetPosition() == new Vector3(x, 0, z)).GetObj().SetActive(false);
+            chunk.GetObj().SetActive(false);
         }
     }
 
     void LoadChunk(int x, int z)
     {
-        if (chunks.Exists((c) => c.GetPosition() == new Vector3(x, 0, z)))
+		Chunk chunk = chunks.Find((c) => c.GetPosition() == new Vector3(x, 0, z));
+        if (chunk != null)
         {
-            chunks.Find((c) => c.GetPosition() == new Vector3(x, 0, z)).GetObj().SetActive(true);
+            chunk.GetObj().SetActive(true);
         }
         else 
         {
@@ -98,7 +100,7 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));;
+                float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));
                 vertices[i] = new Vector3(x, y, z);
                 uvs[i] = new Vector2(x, z);
                 i++;

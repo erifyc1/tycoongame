@@ -88,6 +88,5 @@ public class TerrainGenerator : MonoBehaviour
         transform.gameObject.SetActive(true);
 
         Destroy(block);
-
     }
 }
