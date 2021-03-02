@@ -129,17 +129,24 @@ public class BuildUI : MonoBehaviour
         if (placingObject)
         {
             float closestX = 0f;
+            float hoverY = 0f;
             float closestZ = 0f;
             if (raycastPlace)
             {
                 var ray = Camera.main.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out hit, 90f) && hit.transform.gameObject != currPlacingObject)
                 {
-                    Vector3 mousePos = new Vector3(ray.GetPoint(hit.distance).x, 0, ray.GetPoint(hit.distance).z);
+                    Vector3 mousePos = ray.GetPoint(hit.distance);
 
                     closestX = mousePos.x % 10 < 5 ? Mathf.FloorToInt(mousePos.x / 10) * 10 : mousePos.x % 10 >= 5 ? Mathf.CeilToInt(mousePos.x / 10) * 10 : mousePos.x;
                     closestZ = mousePos.z % 10 < 5 ? Mathf.FloorToInt(mousePos.z / 10) * 10 : mousePos.z % 10 >= 5 ? Mathf.CeilToInt(mousePos.z / 10) * 10 : mousePos.z;
+                }
+                else
+                {
+                    closestX = ray.GetPoint(90f).x;
+                    hoverY = ray.GetPoint(90f).y;
+                    closestZ = ray.GetPoint(90f).z;
                 }
             }
             else
@@ -193,7 +200,11 @@ public class BuildUI : MonoBehaviour
                 }
             }
 
-            if (occupiedTiles.Exists((stack) => stack.x == closestX && stack.y == closestZ))
+            if (hoverY != 0)
+            {
+                currPlacingObject.transform.position = new Vector3(closestX, hoverY, closestZ);
+            }
+            else if (occupiedTiles.Exists((stack) => stack.x == closestX && stack.y == closestZ))
             {
                 Stack stack = occupiedTiles.Find((stack) => stack.x == closestX && stack.y == closestZ);
 

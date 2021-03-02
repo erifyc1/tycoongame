@@ -19,80 +19,85 @@ public class MeshGenerator : MonoBehaviour
     [SerializeField] float chunkUpdateTime = 3f;
 	private float timer = 0f;
 
+    private GameObject nullObjContainer;
+
     private int xSize = 200; // per chunk
     private int zSize = 200; // per chunk
 	
-	private struct GenChunkJob : IJob {
-		public int xPos;
-		public int zPos;
-		public int xSize;
-		public int zSize;
-		public Vector3[] vertices;
-		public Vector2[] uvs;
-		public List<Chunk> chunks;
-		public Material mat;
-		public int[] triangles;
-		public Transform transform;
+	// private struct GenChunkJob : IJob {
+	// 	public int xPos;
+	// 	public int zPos;
+	// 	public int xSize;
+	// 	public int zSize;
+	// 	public Vector3[] vertices;
+	// 	public Vector2[] uvs;
+	// 	public List<Chunk> chunks;
+	// 	public Material mat;
+	// 	public int[] triangles;
+	// 	public Transform transform;
 		
-		public void Execute() {
-			GameObject chunkObj = new GameObject();
+		// public void Execute() {
+		// 	GameObject chunkObj = new GameObject();
 
-			chunkObj.SetActive(false);
-			chunkObj.transform.position = new Vector3(xPos*200, 0, zPos*200);
-			chunkObj.name = "Chunk (" + xPos + ", " + zPos + ")";
-			chunkObj.transform.parent = transform;
-			chunks.Add(new Chunk(xPos, zPos, chunkObj));
+		// 	chunkObj.SetActive(false);
+		// 	chunkObj.transform.position = new Vector3(xPos*200, 0, zPos*200);
+		// 	chunkObj.name = "Chunk (" + xPos + ", " + zPos + ")";
+        //     chunkObj.gameObject.tag = "ground";
+		// 	chunkObj.transform.parent = transform;
+		// 	chunks.Add(new Chunk(xPos, zPos, chunkObj));
 
-			vertices = new Vector3[(xSize + 1) * (zSize + 1)];
-			uvs = new Vector2[(xSize + 1) * (zSize + 1)];
+		// 	vertices = new Vector3[(xSize + 1) * (zSize + 1)];
+		// 	uvs = new Vector2[(xSize + 1) * (zSize + 1)];
 
-			for (int z = 0, i = 0; z <= zSize; z++)
-			{
-				for (int x = 0; x <= xSize; x++)
-				{
-					float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));
-					vertices[i] = new Vector3(x, y, z);
-					uvs[i] = new Vector2(x, z);
-					i++;
-				}
-			}
+		// 	for (int z = 0, i = 0; z <= zSize; z++)
+		// 	{
+		// 		for (int x = 0; x <= xSize; x++)
+		// 		{
+		// 			float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));
+		// 			vertices[i] = new Vector3(x, y, z);
+		// 			uvs[i] = new Vector2(x, z);
+		// 			i++;
+		// 		}
+		// 	}
 
-			Mesh mesh = new Mesh();
-			MeshCollider meshCollider = new MeshCollider();
-			MeshRenderer meshRenderer = new MeshRenderer();
+		// 	Mesh mesh = new Mesh();
+		// 	MeshCollider meshCollider = new MeshCollider();
+		// 	MeshRenderer meshRenderer = new MeshRenderer();
 
-			chunkObj.AddComponent<MeshFilter>();
-			chunkObj.AddComponent<MeshCollider>();
-			chunkObj.AddComponent<MeshRenderer>();
+		// 	chunkObj.AddComponent<MeshFilter>();
+		// 	chunkObj.AddComponent<MeshCollider>();
+		// 	chunkObj.AddComponent<MeshRenderer>();
 
-			mesh = chunkObj.GetComponent<MeshFilter>().mesh;
-			meshCollider = chunkObj.GetComponent<MeshCollider>();
-			meshRenderer = chunkObj.GetComponent<MeshRenderer>();
-			meshRenderer.material = mat;
+		// 	mesh = chunkObj.GetComponent<MeshFilter>().mesh;
+		// 	meshCollider = chunkObj.GetComponent<MeshCollider>();
+		// 	meshRenderer = chunkObj.GetComponent<MeshRenderer>();
+		// 	meshRenderer.material = mat;
 
-			UpdateMesh(mesh, meshCollider);
-			chunkObj.SetActive(true);
-		}
+		// 	UpdateMesh(mesh, meshCollider);
+		// 	chunkObj.SetActive(true);
+		// }
 
-		void UpdateMesh(Mesh mesh, MeshCollider meshCollider)
-		{
-			mesh.Clear();
-			mesh.vertices = vertices;
-			mesh.triangles = triangles;
-			mesh.uv = uvs;
-			mesh.RecalculateNormals();
-			mesh.RecalculateBounds();
-			meshCollider.sharedMesh = mesh;
-		}
-	}
+	// 	void UpdateMesh(Mesh mesh, MeshCollider meshCollider)
+	// 	{
+	// 		mesh.Clear();
+	// 		mesh.vertices = vertices;
+	// 		mesh.triangles = triangles;
+	// 		mesh.uv = uvs;
+	// 		mesh.RecalculateNormals();
+	// 		mesh.RecalculateBounds();
+	// 		meshCollider.sharedMesh = mesh;
+	// 	}
+	// }
 
     void Start()
     {
         camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
         currOccupiedChunk = Vector3.zero;
         chunks = new List<Chunk>();
+        nullObjContainer = GameObject.FindGameObjectWithTag("nObjContainer");
         CalcTriangles();
-        StartCoroutine(LoadRadius(currOccupiedChunk, 3));
+        StartCoroutine(GenerateChunk(0, 0));
+        //StartCoroutine(LoadRadius(currOccupiedChunk, 3));
         
         //transform.position = new Vector3(-0.5f*xSize, 0, -0.5f*zSize);
     }
@@ -162,7 +167,6 @@ public class MeshGenerator : MonoBehaviour
         }
         else 
         {
-<<<<<<< HEAD
 			//Thread t = new Thread(new ParameterizedThreadStart(this.GenerateChunk));
 			//t.Start((x, z));
             //Thread.Sleep(0);
@@ -172,30 +176,13 @@ public class MeshGenerator : MonoBehaviour
 
 
     IEnumerator GenerateChunk(int xPos, int zPos)
-=======
-			GenChunkJob job = new GenChunkJob();
-			job.xPos = x;
-			job.zPos = z;
-			job.xSize = xSize;
-			job.zSize = zSize;
-			job.vertices = vertices;
-			job.uvs = uvs;
-			job.chunks = chunks;
-			job.triangles = triangles;
-			job.transform = transform;
-			job.Schedule();
-            // GenerateChunk(x, z);
-        }
-    }
-
-    void GenerateChunk(object positions)
->>>>>>> cf939b99940627d635d195636d3d765f8a99d67e
     {
         GameObject chunkObj = new GameObject();
 
         chunkObj.SetActive(false);
         chunkObj.transform.position = new Vector3(xPos*200, 0, zPos*200);
         chunkObj.name = "Chunk (" + xPos + ", " + zPos + ")";
+        chunkObj.gameObject.tag = "ground";
         chunkObj.transform.parent = transform;
         chunks.Add(new Chunk(xPos, zPos, chunkObj));
 
@@ -206,12 +193,14 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*200)),  5000 - (0.01f*(z+zPos*200)));
+                float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*xSize)),  5000 - (0.01f*(z+zPos*zSize)));
                 vertices[i] = new Vector3(x, y, z);
                 uvs[i] = new Vector2(x, z);
                 i++;
             }
         }
+
+        GenerateNullObjects(vertices, xPos, zPos);
         Mesh mesh = new Mesh();
         MeshCollider meshCollider = new MeshCollider();
         MeshRenderer meshRenderer = new MeshRenderer();
@@ -242,6 +231,30 @@ public class MeshGenerator : MonoBehaviour
         meshCollider.sharedMesh = mesh;
     }
 
+    void GenerateNullObjects(Vector3[] vertices, int xPos, int zPos) // x and z pos are in chunks
+    {
+        BuildUI buildUI = GameObject.FindGameObjectWithTag("buildmanager").GetComponent<BuildUI>() as BuildUI;
+        for (int x = 0; x < 20; x++)
+        {
+            for (int z = 0; z < 20; z++)
+            {
+                float vertHeight = vertices[805 + 10*x + 1000*z].y;
+                float stackHeight = 10*(vertHeight % 10 < 5 ? Mathf.FloorToInt(vertHeight / 10) : Mathf.CeilToInt(vertHeight / 10));
+                GameObject[] objs = new GameObject[stackHeight == 0 ? 0 : Mathf.FloorToInt(stackHeight / 10)];
+
+                for (int i = 0; i < stackHeight / 10; i++)
+                {
+                    GameObject nObj = new GameObject("nullobj", typeof(NullObject));
+                    objs[i] = nObj;
+                    nObj.transform.parent = nullObjContainer.transform;
+                }
+                Stack stack = new Stack(xPos*200 + x*10, zPos*200 + z*10, (int)stackHeight * 10, objs);
+                buildUI.occupiedTiles.Add(stack);
+
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -252,7 +265,7 @@ public class MeshGenerator : MonoBehaviour
             if (c != currOccupiedChunk)
             {
                 currOccupiedChunk = c;
-                StartCoroutine(LoadRadius(c, 3));
+                //StartCoroutine(LoadRadius(c, 3));
             }
         }
     }

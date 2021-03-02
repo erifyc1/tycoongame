@@ -10,6 +10,7 @@ TagManager:
   - Generator
   - convVariant
   - nObjContainer
+  - ground
   layers:
   - Default
   - TransparentFX
