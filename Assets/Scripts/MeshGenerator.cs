@@ -239,16 +239,16 @@ public class MeshGenerator : MonoBehaviour
             for (int z = 0; z < 20; z++)
             {
                 float vertHeight = vertices[805 + 10*x + 1000*z].y;
-                float stackHeight = 10*(vertHeight % 10 < 5 ? Mathf.FloorToInt(vertHeight / 10) : Mathf.CeilToInt(vertHeight / 10));
-                GameObject[] objs = new GameObject[stackHeight == 0 ? 0 : Mathf.FloorToInt(stackHeight / 10)];
+                float stackHeight = 10*(vertHeight % 10 < 8 ? Mathf.FloorToInt(vertHeight / 10) : Mathf.CeilToInt(vertHeight / 10));
+                GameObject[] objs = new GameObject[stackHeight == 0 ? 0 : Mathf.FloorToInt(stackHeight / 10) -1];
 
-                for (int i = 0; i < stackHeight / 10; i++)
+                for (int i = 0; i < (stackHeight / 10) -1; i++)
                 {
-                    GameObject nObj = new GameObject("nullobj", typeof(NullObject));
+                    GameObject nObj = new GameObject("NullObj (" + (xPos*200 + x*10) + ", " + stackHeight + ", " + (zPos*200 + z*10) + ")", typeof(NullObject));
                     objs[i] = nObj;
                     nObj.transform.parent = nullObjContainer.transform;
                 }
-                Stack stack = new Stack(xPos*200 + x*10, zPos*200 + z*10, (int)stackHeight * 10, objs);
+                Stack stack = new Stack(xPos*200 + x*10, zPos*200 + z*10, (int)stackHeight-10, objs);
                 buildUI.occupiedTiles.Add(stack);
 
             }
@@ -265,7 +265,7 @@ public class MeshGenerator : MonoBehaviour
             if (c != currOccupiedChunk)
             {
                 currOccupiedChunk = c;
-                //StartCoroutine(LoadRadius(c, 3));
+                StartCoroutine(LoadRadius(c, 3));
             }
         }
     }
