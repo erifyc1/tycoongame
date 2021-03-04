@@ -16,7 +16,7 @@ public class ConveyorScriptLeft : MonoBehaviour, IActivatable, IConveyor
         Vector2 accel = new Vector2(Mathf.Pow(2, -Mathf.Abs(tx)) * (5 + (Lz * tz + Lx * -tx) * x) * x, Mathf.Pow(2, -Mathf.Abs(tz)) * (5 + (Lz * -tz + Lx * tx) * z) * z);
         //Debug.Log(new Vector2(tx, tz));
         //Debug.Log(accel);
-        return accel * 3;
+        return accel;
     }
 
     public void Activate()

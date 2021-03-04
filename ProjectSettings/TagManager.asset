@@ -11,6 +11,9 @@ TagManager:
   - convVariant
   - nObjContainer
   - ground
+  - score
+  - balanceText
+  - resourceHandler
   layers:
   - Default
   - TransparentFX
@@ -18,8 +21,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - ground
+  - object
   - 
   - 
   - 

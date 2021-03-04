@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5433605642021386999}
   - component: {fileID: 4302693524953965353}
   m_Layer: 0
-  m_Name: LouisTerrainCube
+  m_Name: MetalTerrainCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

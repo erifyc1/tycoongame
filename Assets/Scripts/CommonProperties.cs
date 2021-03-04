@@ -48,4 +48,31 @@ public class CommonProperties : MonoBehaviour, IRotatable
         }
         transform.rotation = Quaternion.AngleAxis(yDegrees, Vector3.up);
     }
+
+    public void SetTransparency(float alpha, BlendMode newBlendMode)
+    {
+        if (TryGetComponent(typeof(MeshRenderer), out Component comp))
+        {
+            Material mat = comp.GetComponent<MeshRenderer>().material;
+            Utils.SetupMaterialWithBlendMode(mat, newBlendMode);
+            Color c = mat.color;
+            c.a = alpha;
+            mat.color = c;
+        }
+
+        if (transform.childCount > 0)
+        {
+            for (int i=0; i<transform.childCount; i++)
+            {
+                if (transform.GetChild(i).name != "ignoreTransparency" && transform.GetChild(i).TryGetComponent(typeof(MeshRenderer), out Component com))
+                {
+                    Material mat = com.GetComponent<MeshRenderer>().material;
+                    Utils.SetupMaterialWithBlendMode(mat, newBlendMode);
+                    Color c = mat.color;
+                    c.a = alpha;
+                    mat.color = c;
+                }
+            }
+        }
+    }
 }

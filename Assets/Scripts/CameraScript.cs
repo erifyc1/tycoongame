@@ -6,8 +6,8 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
 
-	[SerializeField]
-	private float zoom = 10f;
+	//[SerializeField]
+	//private float zoom = 10f;
 	private float vert;
 	private float horiz;
 
