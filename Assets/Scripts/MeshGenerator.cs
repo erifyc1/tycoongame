@@ -8,10 +8,16 @@ using Unity.Jobs;
 [RequireComponent(typeof(MeshFilter))]
 public class MeshGenerator : MonoBehaviour
 {
+    [SerializeField] bool enableChunkLoading;
     [SerializeField] Material mat;
     private Vector3[] vertices;
     private int[] triangles;
-    private Vector2[] uvs;
+    private Color[] vertexColors;
+    public Gradient gradient;
+    private float maxTerrainHeight;
+    private float minTerrainHeight;
+    private float[] biomeFactor;
+
     private List<Chunk> chunks;
     private Vector3 currOccupiedChunk;
     private CameraScript camScript;
@@ -19,21 +25,39 @@ public class MeshGenerator : MonoBehaviour
     [SerializeField] float chunkUpdateTime = 3f;
 	private float timer = 0f;
 
-    private GameObject nullObjContainer;
 
-    private int xSize = 200; // per chunk
-    private int zSize = 200; // per chunk
+    private int xSize = 100; // per chunk
+    private int zSize = 100; // per chunk
+    private int vertFrequency = 5;
 	
     void Start()
     {
         camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
         currOccupiedChunk = Vector3.zero;
         chunks = new List<Chunk>();
-        nullObjContainer = GameObject.FindGameObjectWithTag("nObjContainer");
+        if (vertFrequency < 1) vertFrequency = 1;
         CalcTriangles();
-        StartCoroutine(GenerateChunk(0, 0));
-        //StartCoroutine(LoadRadius(currOccupiedChunk, 3));
+        //CalcRandomHeightVariation();
+        //StartCoroutine(GenerateChunk(0, 0));
+        StartCoroutine(LoadRadius(currOccupiedChunk, 3));
         
+    }
+
+    void CalcRandomHeightVariation()
+    {
+        float xOffset = UnityEngine.Random.Range(0f, 1f)*5000;
+        float zOffset = UnityEngine.Random.Range(0f, 1f)*5000;
+        // biomeFactor = new float[201*201];
+        // for (int z = 0, i = 0; z <= 200; z++)
+        // {
+        //     for (int x = 0; x <= 200; x++)
+        //     {
+        //         float y = Mathf.PerlinNoise(xOffset - (0.005f*(x)),  zOffset - (0.005f*(z)));
+        //         biomeFactor[i] = y;
+
+        //         i++;
+        //     }
+        // }
     }
 
     void CalcTriangles()
@@ -114,7 +138,7 @@ public class MeshGenerator : MonoBehaviour
         GameObject chunkObj = new GameObject();
 
         chunkObj.SetActive(false);
-        chunkObj.transform.position = new Vector3(xPos*200, 0, zPos*200);
+        chunkObj.transform.position = new Vector3(xPos*xSize*vertFrequency, 0, zPos*zSize*vertFrequency);
         chunkObj.name = "Chunk (" + xPos + ", " + zPos + ")";
         chunkObj.gameObject.tag = "ground";
         chunkObj.transform.parent = transform;
@@ -123,20 +147,32 @@ public class MeshGenerator : MonoBehaviour
         chunks.Add(new Chunk(xPos, zPos, chunkObj));
 
         vertices = new Vector3[(xSize + 1) * (zSize + 1)];
-        uvs = new Vector2[(xSize + 1) * (zSize + 1)];
+        vertexColors = new Color[(xSize + 1) * (zSize + 1)];
 
         for (int z = 0, i = 0; z <= zSize; z++)
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = 45*Mathf.PerlinNoise(5000 - (0.01f*(x+xPos*xSize)),  5000 - (0.01f*(z+zPos*zSize)));
-                vertices[i] = new Vector3(x, y, z);
-                uvs[i] = new Vector2(x, z);
+                float y = 45*Mathf.PerlinNoise(5000 - (0.01f*vertFrequency*(x+xPos*xSize)),  5000 - (0.01f*vertFrequency*(z+zPos*zSize)));//*biomeFactor[(Mathf.Abs(zPos)*200+Mathf.Abs(xPos)*20+i)%40000];
+                vertices[i] = new Vector3(vertFrequency * x, y, vertFrequency * z);
+
+                if (y > maxTerrainHeight) maxTerrainHeight = y;
+                if (y < minTerrainHeight) minTerrainHeight = y;
                 i++;
             }
         }
 
-        //GenerateNullObjects(vertices, xPos, zPos);
+
+        for (int z = 0, j = 0; z <= zSize; z++)
+        {
+            for (int x = 0; x <= xSize; x++)
+            {
+                float normalizedHeight = Mathf.InverseLerp(minTerrainHeight, maxTerrainHeight, vertices[j].y);
+                vertexColors[j] = gradient.Evaluate(normalizedHeight);
+                j++;
+            }
+        }
+
         Mesh mesh = new Mesh();
         MeshCollider meshCollider = new MeshCollider();
         MeshRenderer meshRenderer = new MeshRenderer();
@@ -161,7 +197,7 @@ public class MeshGenerator : MonoBehaviour
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
-        mesh.uv = uvs;
+        mesh.colors = vertexColors;
         mesh.RecalculateNormals();
         mesh.RecalculateBounds();
         meshCollider.sharedMesh = mesh;
@@ -201,8 +237,13 @@ public class MeshGenerator : MonoBehaviour
             if (c != currOccupiedChunk)
             {
                 currOccupiedChunk = c;
-                StartCoroutine(LoadRadius(c, 3));
+                if (enableChunkLoading) StartCoroutine(LoadRadius(c, 3));
             }
         }
+    }
+
+    public int GetVertFrequency()
+    {
+        return vertFrequency;
     }
 }

@@ -23,6 +23,7 @@ public class CameraScript : MonoBehaviour
 	private float timer = 0f;
 
 	[SerializeField] Vector3 chunkPos;
+	private int vertFrequency;
 
     public void OnVertical(InputAction.CallbackContext context)
     {
@@ -71,6 +72,7 @@ public class CameraScript : MonoBehaviour
 	{
 		Cursor.lockState = CursorLockMode.Locked;
 		transform.position = new Vector3(0, 50, 0);
+		vertFrequency = GameObject.FindGameObjectWithTag("meshGenerator").GetComponent<MeshGenerator>().GetVertFrequency();
 	}
 
 	// Update is called once per frame
@@ -79,7 +81,7 @@ public class CameraScript : MonoBehaviour
 		timer += Time.deltaTime;
 		if (timer >= chunkUpdateTime)
 		{
-			chunkPos = new Vector3((int) transform.position.x / 200, 0, (int) transform.position.z / 200);
+			chunkPos = new Vector3((int) transform.position.x / (200 * vertFrequency), 0, (int) transform.position.z / (200 * vertFrequency));
 		}
 
 

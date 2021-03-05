@@ -8,6 +8,24 @@ public class ResourceItem : MonoBehaviour
 
     private int value;
 
+    private Dictionary<string, bool> upgrades = new Dictionary<string, bool>();
+
+    public bool HasUpgrade(string upgradeKey)
+    {
+        return upgrades.ContainsKey(upgradeKey);
+    }
+
+    public Dictionary<string, bool> SetUpgrades(Dictionary<string, bool> d)
+    {
+        upgrades = d;
+        return upgrades;
+    }
+
+    public Dictionary<string, bool> GetUpgrades()
+    {
+        return upgrades;
+    }
+
     public void SetValue(int v)
     {
         value = v;
