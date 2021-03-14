@@ -2,11 +2,11 @@
     "name": "Controls",
     "maps": [
         {
-            "name": "Camera Movement",
+            "name": "Movement",
             "id": "1de9b561-3e74-4fea-8b10-4bf30054db5e",
             "actions": [
                 {
-                    "name": "Forward / Back",
+                    "name": "W / S",
                     "type": "Value",
                     "id": "5c8c12e9-8ec5-4363-b93a-c7ff219fd3d0",
                     "expectedControlType": "Axis",
@@ -14,7 +14,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Left / Right",
+                    "name": "A / D",
                     "type": "Value",
                     "id": "e0440c9c-8ade-4c1a-b254-57ffd79f0a4f",
                     "expectedControlType": "Axis",
@@ -30,15 +30,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Up / Down",
-                    "type": "Button",
-                    "id": "6f6d38c7-cf1a-4b04-acfd-1854e58cfa41",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Pan Up / Down",
+                    "name": "Arrow Up / Down",
                     "type": "Button",
                     "id": "b23463d0-7a7f-4d3f-8a77-1218bfd02ffe",
                     "expectedControlType": "Button",
@@ -46,7 +38,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Pan Left / Right",
+                    "name": "Arrow Left / Right",
                     "type": "Button",
                     "id": "85ec1421-9124-472a-8598-bfdcc530d219",
                     "expectedControlType": "Button",
@@ -60,6 +52,30 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Shift",
+                    "type": "Button",
+                    "id": "1883428d-3faa-4f80-a9e3-a31d7bdaf2a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Space",
+                    "type": "Button",
+                    "id": "6f6d38c7-cf1a-4b04-acfd-1854e58cfa41",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "3e8b56ab-bb27-45ca-b987-60a564973cb3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -70,7 +86,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Forward / Back",
+                    "action": "W / S",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -81,7 +97,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Forward / Back",
+                    "action": "W / S",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -92,7 +108,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Forward / Back",
+                    "action": "W / S",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -103,7 +119,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Left / Right",
+                    "action": "A / D",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -114,7 +130,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Left / Right",
+                    "action": "A / D",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -125,7 +141,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Left / Right",
+                    "action": "A / D",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -142,45 +158,12 @@
                 },
                 {
                     "name": "1D Axis",
-                    "id": "1eea907a-4e53-4684-b5fa-f7b40490b747",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up / Down",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "0defd71e-2936-4ddd-ae49-bc93a867b384",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up / Down",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "faaf412a-b1e5-4c60-a89c-d17311766dd8",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Up / Down",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
                     "id": "a1bd3d90-0a62-4654-a12d-1ade0c84ddef",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pan Up / Down",
+                    "action": "Arrow Up / Down",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -191,7 +174,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pan Up / Down",
+                    "action": "Arrow Up / Down",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -202,7 +185,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pan Up / Down",
+                    "action": "Arrow Up / Down",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -213,7 +196,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pan Left / Right",
+                    "action": "Arrow Left / Right",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -224,7 +207,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pan Left / Right",
+                    "action": "Arrow Left / Right",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -235,7 +218,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pan Left / Right",
+                    "action": "Arrow Left / Right",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -247,6 +230,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Delta Mouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3604fdf-359e-4b01-93d3-b0c9d61a5e06",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "12eca45f-e6e9-4a04-a3b6-76313e44d71f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Space",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e1dae44-130d-4069-a8a9-f4a111796164",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

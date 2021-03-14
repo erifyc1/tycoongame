@@ -18,12 +18,10 @@ public class CameraScript : MonoBehaviour
 	private Vector3 CameraRotation;
 
 	private Vector2 scroll;
+	[SerializeField] float camSpeed;
+	[SerializeField] Vector3 startPos;
+	[SerializeField] Vector3 startRot;
 
-	[SerializeField] float chunkUpdateTime = 5f;
-	private float timer = 0f;
-
-	[SerializeField] Vector3 chunkPos;
-	private int vertFrequency;
 
     public void OnVertical(InputAction.CallbackContext context)
     {
@@ -63,27 +61,16 @@ public class CameraScript : MonoBehaviour
         
     }
 
-	public Vector3 GetChunk()
-	{
-		return chunkPos;
-	}
-	// Start is called before the first frame update
 	void Start()
 	{
 		Cursor.lockState = CursorLockMode.Locked;
-		transform.position = new Vector3(0, 50, 0);
-		vertFrequency = GameObject.FindGameObjectWithTag("meshGenerator").GetComponent<MeshGenerator>().GetVertFrequency();
+		transform.position = startPos;
+		transform.rotation = Quaternion.Euler(startRot);
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		timer += Time.deltaTime;
-		if (timer >= chunkUpdateTime)
-		{
-			chunkPos = new Vector3((int) transform.position.x / (200 * vertFrequency), 0, (int) transform.position.z / (200 * vertFrequency));
-		}
-
 
 		float RotationX = speed * deltaPos.x * Time.deltaTime;
 		float RotationY = speed * deltaPos.y * Time.deltaTime;
@@ -106,7 +93,7 @@ public class CameraScript : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		transform.position += transform.forward*vert + transform.right*horiz;
+		transform.position += transform.forward*vert*camSpeed + transform.right*horiz*camSpeed;
 	}
 
 	void OnGUI()

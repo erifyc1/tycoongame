@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     private int balance;
     private Text balanceText;
+    [SerializeField] int FPS;
+    private int workingFps;
+    private float timer;
     void Start()
     {
         balanceText = GameObject.FindGameObjectWithTag("balanceText").GetComponent<Text>();
@@ -29,6 +32,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        timer += Time.deltaTime;
+        workingFps++;
+        if (timer > 1)
+        {
+            FPS = workingFps;
+            workingFps = 0;
+            timer = 0;
+        }
     }
 }
