@@ -16,11 +16,12 @@ TagManager:
   - resourceHandler
   - gameManager
   - meshGenerator
+  - resourceTransformer
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - invisibleToCamera
   - Water
   - UI
   - ground

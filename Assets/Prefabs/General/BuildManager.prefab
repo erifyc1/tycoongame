@@ -64,7 +64,9 @@ MonoBehaviour:
   - {fileID: 5749780321485390662, guid: fd62e907ef3194c4a8d56c12a6bc0c5f, type: 3}
   - {fileID: 5795559695579671657, guid: a574792382af5b1428b06a5b9b62b3fd, type: 3}
   - {fileID: 4095270068480567721, guid: ec1965ca3e8472b4a86055015391abea, type: 3}
-  placingObject: 0
+  player: {fileID: 0}
+  debugCube: {fileID: 0}
+  debugCubeEnabled: 0
 --- !u!114 &3103252114682054921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +328,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5e6377e1-92a3-41f0-bb6f-dc0bad1ab660
     m_ActionName: Interactions/0[/Keyboard/0]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1883428d-3faa-4f80-a9e3-a31d7bdaf2a1
+    m_ActionName: Movement/Shift[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3e8b56ab-bb27-45ca-b987-60a564973cb3
+    m_ActionName: Movement/Escape[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Interactions

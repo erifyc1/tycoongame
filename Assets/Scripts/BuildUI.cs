@@ -11,12 +11,21 @@ public class BuildUI : MonoBehaviour
     [SerializeField]
     GameObject[] objPrefabs;
 
+    [SerializeField] GameObject player;
+
+    [SerializeField] GameObject debugCube;
+    [SerializeField] bool debugCubeEnabled = false;
+    private GameObject debugCubeContainer;
+    private int debugCubeCount = 0;
+
+    private GameObject blockContainer;
+
     Dictionary<string, GameObject> objMap = new Dictionary<string, GameObject>(); // dictionary of placable objects
     private string streakPlaceName = "";
 
     public WorldGrid world;
 
-    public bool placingObject = false;
+    private bool placingObject = false;
     private bool snapped = false;
     
     private GameObject currPlacingObject;
@@ -35,6 +44,15 @@ public class BuildUI : MonoBehaviour
             objMap.Add(objNames[i], objPrefabs[i]);
         }
         
+    }
+
+    private void Start()
+    {
+        debugCubeContainer = new GameObject("debugCubeContainer");
+        debugCubeContainer.transform.parent = transform;
+
+        blockContainer = new GameObject("blockContainer");
+        blockContainer.transform.parent = transform;
     }
 
     public void OnRotate(InputAction.CallbackContext context)
@@ -75,7 +93,6 @@ public class BuildUI : MonoBehaviour
     public void OnLMB(InputAction.CallbackContext context)
     {
         LMB = context.ReadValue<float>() == 1;
-
         if (snapped && LMB && context.started && placingObject && !(world.GridSpaceExists(placingObjPos)))
         {
 
@@ -86,8 +103,18 @@ public class BuildUI : MonoBehaviour
 
             placingObject = false;
             currPlacingObject.layer = 7;
-            world.AddSpace(new GridSpace(placingObjPos, currPlacingObject));
-            currPlacingObject.GetComponent<CommonProperties>().SetTransparency(1f, BlendMode.Opaque);
+            currPlacingObject.transform.parent = blockContainer.transform;
+
+            CommonProperties common = currPlacingObject.GetComponent<CommonProperties>();
+
+            foreach (Vector3 relPos in AdjustFootprint(common.GetFootprint(), common.GetFacing())) //get adjusted footprint of placing object and add world positions to worldGrid
+            {
+                world.AddSpace(new GridSpace(placingObjPos + 10 * relPos, currPlacingObject));
+            }
+
+            common.SetTransparency(1f, BlendMode.Opaque);
+            common.ResetTintColor();
+            common.SetColliderEnabled(true);
             currPlacingObject = null;
 
             if (streakPlaceName != "")
@@ -124,6 +151,13 @@ public class BuildUI : MonoBehaviour
                 Destroy(currPlacingObject);
                 currPlacingObject = null;
                 placingObject = false;
+                if (debugCubeEnabled)
+                {
+                    for (int i = 0; i < debugCubeCount; i++)
+                    {
+                        debugCubeContainer.transform.GetChild(i).transform.position = Vector3.zero;
+                    }
+                }
             }
             streakPlaceName = "";
         }
@@ -136,7 +170,33 @@ public class BuildUI : MonoBehaviour
         {
             currPlacingObject = Instantiate(objMap[name]);
             currPlacingObject.name = name;
-            currPlacingObject.GetComponent<CommonProperties>().SetTransparency(0.2f, BlendMode.Transparent);
+            CommonProperties common = currPlacingObject.GetComponent<CommonProperties>();
+            common.SetTransparency(0.2f, BlendMode.Transparent);
+            common.SetColliderEnabled(false);
+            common.InitMats();
+
+            if (debugCubeEnabled)
+            {
+                int diff = debugCubeCount - common.GetFootprint().Count;
+                if (diff > 0)
+                {
+                    for (int i = 0; i < diff; i++)
+                    {
+                        GameObject g = debugCubeContainer.transform.GetChild(0).gameObject;
+                        g.SetActive(false);
+                        Destroy(g);
+                        debugCubeCount--;
+                    }
+                }
+                else if (diff < 0)
+                {
+                    for (int i = 0; i < -diff; i++)
+                    {
+                        GameObject g = Instantiate(debugCube, Vector3.zero, Quaternion.identity, debugCubeContainer.transform);
+                        debugCubeCount++;
+                    }
+                }
+            }
 
 
             placingObject = true;
@@ -146,10 +206,10 @@ public class BuildUI : MonoBehaviour
 
     void OnGUI()
     {
+
         snapped = false;
         if (placingObject)
         {
-
             if (raycastPlace)
             {
                 var ray = Camera.main.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y));
@@ -157,20 +217,26 @@ public class BuildUI : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit, 90f, LayerMask.GetMask("object", "ground"), QueryTriggerInteraction.Collide))
                 {
-                    Vector3 hitLocation = ray.GetPoint(hit.distance) + hit.normal;
+                    Vector3 hitLocation = hit.point + hit.normal;
+                    Vector3 gridPosition = Utils.RoundToNearestTen(hitLocation);
 
-                    float x = 10 * (hitLocation.x % 10 < 5 ? Mathf.FloorToInt(hitLocation.x / 10) : Mathf.CeilToInt(hitLocation.x / 10));
-                    float y = 10 * (hitLocation.y % 10 < 5 ? Mathf.FloorToInt(hitLocation.y / 10) : Mathf.CeilToInt(hitLocation.y / 10));
-                    float z = 10 * (hitLocation.z % 10 < 5 ? Mathf.FloorToInt(hitLocation.z / 10) : Mathf.CeilToInt(hitLocation.z / 10));
 
-                    if (!world.GridSpaceExists(new Vector3(x, y, z)))
+
+                    if (ValidatePlacement(gridPosition))
                     {
-                        placingObjPos = new Vector3(x, y, z);
+                        currPlacingObject.GetComponent<CommonProperties>().ResetTintColor();
+                        placingObjPos = gridPosition;
                         snapped = true;
+                    }
+                    else
+                    {
+                        currPlacingObject.GetComponent<CommonProperties>().SetTintColor(Color.red);
+                        placingObjPos = ray.GetPoint(90f);
                     }
                 }
                 else
                 {
+                    currPlacingObject.GetComponent<CommonProperties>().SetTintColor(Color.red);
                     placingObjPos = ray.GetPoint(90f);
                 }
             }
@@ -203,8 +269,74 @@ public class BuildUI : MonoBehaviour
             }
 
             currPlacingObject.transform.position = placingObjPos;
+            
         }
     }
+
+    private List<Vector3> AdjustFootprint(List<Vector3> footprint, Direction facing)
+    {
+        List<Vector3> adjustedFootprint = new List<Vector3>();
+        switch (facing)
+        {
+            case Direction.NORTH:
+                adjustedFootprint = footprint;
+                break;
+
+            case Direction.EAST:
+                foreach (Vector3 relativePosition in footprint)
+                {
+                    adjustedFootprint.Add(new Vector3(-relativePosition.z, relativePosition.y, relativePosition.x));
+                }
+                break;
+
+            case Direction.SOUTH:
+                foreach (Vector3 relativePosition in footprint)
+                {
+                    adjustedFootprint.Add(new Vector3(-relativePosition.x, relativePosition.y, -relativePosition.z));
+                }
+                break;
+
+            case Direction.WEST:
+                foreach (Vector3 relativePosition in footprint)
+                {
+                    adjustedFootprint.Add(new Vector3(relativePosition.z, relativePosition.y, -relativePosition.x));
+                }
+                break;
+
+            default:
+                break;
+        }
+        return adjustedFootprint;
+    }
+
+    private bool ValidatePlacement(Vector3 gridPosition)
+    {
+        CommonProperties common = currPlacingObject.GetComponent<CommonProperties>();
+
+        if (common.GetFootprint().Count == 0) return false;
+        List<Vector3> adjustedFootprint = AdjustFootprint(common.GetFootprint(), common.GetFacing());
+
+        for (int i = 0; i < adjustedFootprint.Count; i++)
+        {
+            Vector3 relativePosition = adjustedFootprint[i];
+
+            Vector3 exactPosition = 10*relativePosition + gridPosition;
+            if (debugCubeEnabled)
+            {
+                debugCubeContainer.transform.GetChild(i).transform.position = exactPosition;
+            }
+
+
+            if (world.GridSpaceExists(exactPosition) || Utils.RoundToNearestTen(player.transform.position) == exactPosition)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
 
     private void UpdateBlock(Vector3 position, bool currPlacingAtPosition) // default ignore = false
     {
@@ -269,8 +401,6 @@ public class BuildUI : MonoBehaviour
                 bool south = southExists && southBlock.GetComponent<CommonProperties>().GetFacing() == Direction.NORTH;
                 bool west = westExists && westBlock.GetComponent<CommonProperties>().GetFacing() == Direction.EAST;
 
-                //if (north || south || east || west) Debug.Log("test");
-
                 string prefabName = Utils.GetDirection(targetBlock.GetComponent<CommonProperties>().GetFacing(), north, east, south, west);
 
                 if (targetBlock.name != prefabName) {
@@ -284,7 +414,10 @@ public class BuildUI : MonoBehaviour
                         currPlacingObject.GetComponent<CommonProperties>().SetDirection(objDir);
                         currPlacingObject.layer = objLayer;
                         currPlacingObject.name = prefabName;
-                        currPlacingObject.GetComponent<CommonProperties>().SetTransparency(0.2f, BlendMode.Transparent);
+                        CommonProperties common = currPlacingObject.GetComponent<CommonProperties>();
+                        common.SetTransparency(0.2f, BlendMode.Transparent);
+                        common.SetColliderEnabled(false);
+                        common.InitMats();
                     }
                     else
                     {
@@ -306,51 +439,51 @@ public class BuildUI : MonoBehaviour
 
     public void on1(InputAction.CallbackContext context)
     {
-        BuildObject("cube", false);
+        if (context.started) BuildObject("cube", false);
     }
 
     public void on2(InputAction.CallbackContext context)
     {
-        BuildObject("conveyor", false);
+        if (context.started) BuildObject("conveyor", false);
     }
 
     public void on3(InputAction.CallbackContext context)
     {
-        BuildObject("generator", false);
+        if (context.started) BuildObject("generator", false);
     }
     
     public void on4(InputAction.CallbackContext context)
     {
-        
+        if (context.started) BuildObject("smelter", false);
     }
 
     public void on5(InputAction.CallbackContext context)
     {
-
+        if (context.started) { }
     }
 
     public void on6(InputAction.CallbackContext context)
     {
-        
+        if (context.started) { }
     }
     
     public void on7(InputAction.CallbackContext context)
     {
-
+        if (context.started) { }
     }
     
     public void on8(InputAction.CallbackContext context)
     {
-        
+        if (context.started) { }
     }
 
     public void on9(InputAction.CallbackContext context)
     {
-
+        if (context.started) { }
     }
     
     public void on0(InputAction.CallbackContext context)
     {
-        
+        if (context.started) { }
     }
 }

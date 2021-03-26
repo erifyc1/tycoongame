@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -93,7 +92,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
              {
                  m_cursorIsLocked = true;
              }*/
-            m_cursorIsLocked = escPressed;
+            m_cursorIsLocked = !escPressed;
 
             if (m_cursorIsLocked)
             {

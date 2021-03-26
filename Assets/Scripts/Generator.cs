@@ -9,6 +9,7 @@ public class Generator : MonoBehaviour, IActivatable
     private float timer = 0;
     private bool producing = false;
     private ResourceHandler res;
+    [SerializeField] ResourceType spawnType;
 	
     void Start()
     {
@@ -35,7 +36,7 @@ public class Generator : MonoBehaviour, IActivatable
             {
                 timer = 0;
                 
-                res.GenerateResource(transform.position + Vector3.up*6, "cube", 1);
+                res.GenerateResource(transform.position + Vector3.up*6, spawnType);
                 
             }
         }

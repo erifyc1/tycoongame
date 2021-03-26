@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d38d85cd36dbe43bb0c9f7576a80f7, type: 3}
+  m_Name: ManarOrb
+  m_EditorClassIdentifier: 
+  inputs:
+  - {fileID: 11400000, guid: f8faaf78b7cc73c4894674725d6a03fa, type: 2}
+  outputs:
+  - {fileID: 11400000, guid: c3eb0b6347eed914a8ab0d2e5101132f, type: 2}
+  - {fileID: 11400000, guid: c3eb0b6347eed914a8ab0d2e5101132f, type: 2}

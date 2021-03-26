@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class CommonProperties : MonoBehaviour, IRotatable
 {
-    [SerializeField]
-    Direction facing = Direction.NORTH;
-    private int stackPos = 0;
+    [SerializeField] Direction facing = Direction.NORTH;
+    [SerializeField] List<Vector3> footPrintCoords = new List<Vector3>();
+
+    private List<Color> defaultColors = new List<Color>();
+
 
     public Direction GetFacing()
     {
         return facing;
     }
 
-    public void SetStackPos(int stackPos)
+    public List<Vector3> GetFootprint()
     {
-        this.stackPos = stackPos;
+        return footPrintCoords;
     }
 
-    public int GetStackPos()
-    {
-        return this.stackPos;
-    }
 
     public void SetDirection(Direction dir)
     {
@@ -49,12 +47,33 @@ public class CommonProperties : MonoBehaviour, IRotatable
         transform.rotation = Quaternion.AngleAxis(yDegrees, Vector3.up);
     }
 
-    public void SetTransparency(float alpha, BlendMode newBlendMode)
+    public void InitMats()
+    {
+        if (TryGetComponent(typeof(MeshRenderer), out Component comp)) // init defaultMaterials
+        {
+            Material mat = comp.GetComponent<MeshRenderer>().material;
+            defaultColors.Add(mat.color);
+        }
+
+        if (transform.childCount > 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i).name != "ignoreTransparency" && transform.GetChild(i).TryGetComponent(typeof(MeshRenderer), out Component com))
+                {
+                    Material mat = com.GetComponent<MeshRenderer>().material;
+                    defaultColors.Add(mat.color);
+                }
+            }
+        }
+    }
+
+    public void SetTransparency(float alpha, BlendMode blendMode)
     {
         if (TryGetComponent(typeof(MeshRenderer), out Component comp))
         {
             Material mat = comp.GetComponent<MeshRenderer>().material;
-            Utils.SetupMaterialWithBlendMode(mat, newBlendMode);
+            Utils.SetupMaterialWithBlendMode(mat, blendMode);
             Color c = mat.color;
             c.a = alpha;
             mat.color = c;
@@ -67,7 +86,7 @@ public class CommonProperties : MonoBehaviour, IRotatable
                 if (transform.GetChild(i).name != "ignoreTransparency" && transform.GetChild(i).TryGetComponent(typeof(MeshRenderer), out Component com))
                 {
                     Material mat = com.GetComponent<MeshRenderer>().material;
-                    Utils.SetupMaterialWithBlendMode(mat, newBlendMode);
+                    Utils.SetupMaterialWithBlendMode(mat, blendMode);
                     Color c = mat.color;
                     c.a = alpha;
                     mat.color = c;
@@ -75,4 +94,93 @@ public class CommonProperties : MonoBehaviour, IRotatable
             }
         }
     }
+
+
+
+    public void SetTintColor(Color color)
+    {
+        if (TryGetComponent(typeof(MeshRenderer), out Component comp))
+        {
+            Material mat = comp.GetComponent<MeshRenderer>().material;
+            Color c = mat.color;
+            float alpha = c.a;
+
+            c = color;
+            c.a = alpha;
+            mat.color = c;
+        }
+
+        if (transform.childCount > 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i).name != "ignoreTransparency" && transform.GetChild(i).TryGetComponent(typeof(MeshRenderer), out Component com))
+                {
+                    Material mat = com.GetComponent<MeshRenderer>().material;
+                    Color c = mat.color;
+                    float alpha = c.a;
+
+                    c = color;
+                    c.a = alpha;
+                    mat.color = c;
+                }
+            }
+        }
+    }
+
+    public void ResetTintColor()
+    {
+        int idx = 0;
+        if (TryGetComponent(typeof(MeshRenderer), out Component comp))
+        {
+            Material mat = comp.GetComponent<MeshRenderer>().material;
+            float alpha = mat.color.a;
+
+            Color original = defaultColors[idx];
+            original.a = alpha;
+
+            mat.color = original;
+            idx++;
+        }
+
+        if (transform.childCount > 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i).name != "ignoreTransparency" && transform.GetChild(i).TryGetComponent(typeof(MeshRenderer), out Component com))
+                {
+                    Material mat = com.GetComponent<MeshRenderer>().material;
+                    float alpha = mat.color.a;
+
+                    Color original = defaultColors[idx];
+                    original.a = alpha;
+
+                    mat.color = original;
+                    idx++;
+                }
+            }
+        }
+    }
+
+
+    public void SetColliderEnabled(bool enable)
+    {
+        if (TryGetComponent(typeof(Collider), out Component comp))
+        {
+            comp.GetComponent<Collider>().enabled = enable;
+        }
+
+        if (transform.childCount > 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i).TryGetComponent(typeof(Collider), out Component com))
+                {
+                    com.GetComponent<Collider>().enabled = enable;
+                }
+            }
+        }
+    }
+
+
 }

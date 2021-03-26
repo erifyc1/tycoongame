@@ -67,6 +67,39 @@ public class Utils
         return "fuck";
     }
 
+    public static Vector3 RoundToNearestTen(Vector3 vec)
+    {
+        return new Vector3(RoundToNearestTen(vec.x), RoundToNearestTen(vec.y), RoundToNearestTen(vec.z));
+
+    }
+
+    public static int RoundToNearestTen(float num)
+    {
+        if (Mathf.Abs(num % 10) < 5)
+        {
+            if (num < 0)
+            {
+                return 10 * Mathf.CeilToInt(num / 10f);
+            }
+            else
+            {
+                return 10 * Mathf.FloorToInt(num / 10f);
+            }
+        }
+        else
+        {
+            if (num < 0)
+            {
+                return 10 * Mathf.FloorToInt(num / 10f);
+            }
+            else
+            {
+                return 10 * Mathf.CeilToInt(num / 10f);
+            }
+        }
+    }
+
+
 
     public static void SetupMaterialWithBlendMode(Material material, BlendMode blendMode)
     {

@@ -64,8 +64,8 @@ public class CameraScript : MonoBehaviour
 	void Start()
 	{
 		Cursor.lockState = CursorLockMode.Locked;
-		transform.position = startPos;
-		transform.rotation = Quaternion.Euler(startRot);
+		//transform.position = startPos;
+		//transform.rotation = Quaternion.Euler(startRot);
 	}
 
 	// Update is called once per frame
