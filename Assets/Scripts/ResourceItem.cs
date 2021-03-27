@@ -60,7 +60,7 @@ public class ResourceItem : MonoBehaviour
 
                 if (outputResources != null)
                 {
-                    StartCoroutine(rh.GenerateResources(loc, velocity, av, outputResources));
+                    rh.QueueResources(other.gameObject.GetInstanceID(), loc, velocity, av, outputResources);
                 }
             }
         }
