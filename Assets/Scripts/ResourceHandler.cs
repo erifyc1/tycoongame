@@ -16,33 +16,6 @@ public class ResourceHandler : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("gameManager").GetComponent<GameManager>();
     }
-/*    public GameObject SwapResource(GameObject current, string newTypeName)
-    {
-        Vector3 loc = current.transform.position;// + Vector3.up;
-        Destroy(current);
-
-        GameObject newResource = GenerateResource(loc, newTypeName);
-        return newResource;
-    }
-
-    public GameObject SwapResource(GameObject current, ResourceType newType) // swaps current with a new resource with newType and newValue
-    {
-        Vector3 loc = current.transform.position;// + Vector3.up;
-        Vector3 velocity = current.GetComponent<Rigidbody>().velocity;
-        Vector3 av = current.GetComponent<Rigidbody>().angularVelocity;
-        Destroy(current);
-
-        GameObject newResource = GenerateResource(loc, newType);
-        newResource.GetComponent<Rigidbody>().velocity = velocity;
-        newResource.GetComponent<Rigidbody>().angularVelocity = av;
-        return newResource;
-    }*/
-
-/*    public GameObject GenerateResource(Vector3 location, string typeName) 
-    {
-        ResourceType type = resourceTypes.Find((t) => t.GetName() == typeName);
-        return GenerateResource(location, type);
-    }*/
 
     public GameObject GenerateResource(Vector3 location, ResourceType type)
     {

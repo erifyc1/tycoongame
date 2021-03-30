@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SamPyramid
   m_EditorClassIdentifier: 
   inputs:
-  - {fileID: 11400000, guid: c3eb0b6347eed914a8ab0d2e5101132f, type: 2}
+  - {fileID: 11400000, guid: f8faaf78b7cc73c4894674725d6a03fa, type: 2}
+  - {fileID: 11400000, guid: f8faaf78b7cc73c4894674725d6a03fa, type: 2}
   outputs:
   - {fileID: 11400000, guid: 99166c69abb46be4da9785315fb771c5, type: 2}

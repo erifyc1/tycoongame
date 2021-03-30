@@ -34,16 +34,17 @@ public class ResourceItem : MonoBehaviour
         transformable = true;
     }
 
-    void OnCollisionStay(Collision other)
+/*    void OnCollisionStay(Collision other)
     {
         string tag = other.gameObject.tag;
         if (tag == "conveyor")
         {
-            Vector2 accel = other.gameObject.GetComponents<IConveyor>()[0].getAcceleration(other.GetContact(0).point) * Time.deltaTime;
+            Vector2 accel = other.gameObject.GetComponents<ConveyorScript>().GetAcceleration(other.GetContact(0).point) * Time.deltaTime;
 
-            rb.velocity += new Vector3(accel.x / (Mathf.Abs(rb.velocity.x) + 5), 0, accel.y / (Mathf.Abs(rb.velocity.z) + 5));// * (1 / (rb.velocity.magnitude + 5));
+            rb.velocity /= 1.01f;
+            rb.velocity += new Vector3(accel.x / (rb.velocity.sqrMagnitude + 5), 0, accel.y / (rb.velocity.sqrMagnitude + 5));
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {

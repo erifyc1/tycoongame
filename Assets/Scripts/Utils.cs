@@ -100,6 +100,42 @@ public class Utils
     }
 
 
+    public static Vector3 AdjustRelativePos(Vector3 relPos, Direction facing, bool undo) // used with conveyor system; if undo is true the function reverses previous operation
+    {
+        switch (facing)
+        {
+            case Direction.NORTH:
+                return relPos;
+
+            case Direction.EAST:
+                if (!undo)
+                {
+                    return new Vector3(-relPos.z, relPos.y, relPos.x);
+                }
+                else
+                {
+                    return new Vector3(relPos.z, relPos.y, -relPos.x);
+                }
+
+            case Direction.SOUTH:
+                return new Vector3(-relPos.x, relPos.y, -relPos.z);
+
+            case Direction.WEST:
+                if (!undo)
+                {
+                    return new Vector3(relPos.z, relPos.y, -relPos.x);
+                }
+                else
+                {
+                    return new Vector3(-relPos.z, relPos.y, relPos.x);
+                }
+
+            default:
+                throw new System.Exception("invalid direction to adjust to");
+        }
+    }
+
+
 
     public static void SetupMaterialWithBlendMode(Material material, BlendMode blendMode)
     {

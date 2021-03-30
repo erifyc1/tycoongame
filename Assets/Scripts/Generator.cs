@@ -36,7 +36,7 @@ public class Generator : MonoBehaviour, IActivatable
             {
                 timer = 0;
                 
-                res.GenerateResource(transform.position + Vector3.up*6, spawnType);
+                res.GenerateResource(transform.position + Vector3.up, spawnType);
                 
             }
         }

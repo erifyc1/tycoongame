@@ -115,11 +115,16 @@ public class BuildUI : MonoBehaviour
             common.SetTransparency(1f, BlendMode.Opaque);
             common.ResetTintColor();
             common.SetColliderEnabled(true);
-            currPlacingObject = null;
 
-            if (streakPlaceName != "")
+            if (streakPlaceName == "")
             {
-                BuildObject(streakPlaceName, true);
+                currPlacingObject = null;
+            }
+            else
+            {
+                Direction dir = common.GetFacing();
+                currPlacingObject = null;
+                BuildObject(streakPlaceName, true, dir);
             }
         }
 
@@ -132,7 +137,12 @@ public class BuildUI : MonoBehaviour
 
     }
 
-    public void BuildObject(string name, bool auto) // auto is true if BuildObject() was triggered by placing an object (on streak)
+    public void BuildObject(string name, bool auto)
+    {
+        BuildObject(name, auto, Direction.NORTH);
+    }
+
+    public void BuildObject(string name, bool auto, Direction dir) // auto is true if BuildObject() was triggered by placing an object (on streak)
     {
         if (auto)
         {
@@ -162,6 +172,7 @@ public class BuildUI : MonoBehaviour
             streakPlaceName = "";
         }
 
+        if (currPlacingObject != null) currPlacingObject.GetComponent<CommonProperties>().SetDirection(dir);
 
     }
     private void Build(string name) // only to be invoked by BuildObject()
@@ -459,7 +470,7 @@ public class BuildUI : MonoBehaviour
 
     public void on5(InputAction.CallbackContext context)
     {
-        if (context.started) { }
+        if (context.started) BuildObject("sorter", false);
     }
 
     public void on6(InputAction.CallbackContext context)

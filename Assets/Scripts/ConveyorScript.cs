@@ -2,40 +2,71 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConveyorScript : MonoBehaviour, IActivatable, IConveyor
+public class ConveyorScript : MonoBehaviour
 {
-    [SerializeField] Conveyor pushDirection = Conveyor.forward;
+    [SerializeField] ConveyorSettings convSettings;
 
-    private enum Conveyor
+    private List<GameObject> resourcesOnTop = new List<GameObject>();
+    private CommonProperties common;
+
+
+    void Start()
     {
-        forward,
-        left,
-        right
+        common = transform.parent.GetComponent<CommonProperties>();
+        if (convSettings == null) throw new MissingReferenceException("missing conveyor settings");
     }
 
-    public Vector2 getAcceleration(Vector3 position)
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (pushDirection == Conveyor.forward)
+        GameObject hit = collision.gameObject;
+        if (hit.tag == "resource")
         {
-            return new Vector2(transform.up.x, transform.up.z) * 5;
+            //GameObject resource = transform.parent.gameObject;
+            resourcesOnTop.Add(hit);
         }
-        else if (pushDirection == Conveyor.left)
-        {
-            return new Vector2(transform.right.x, transform.right.z) * 5; // left and right are same relative directin due to rotation of the prefabs
-        }
-        else if (pushDirection == Conveyor.right)
-        {
-            return new Vector2(transform.right.x, transform.right.z) * 5;
-        }
-        else return Vector3.zero;
     }
 
-    public void Activate()
+    private void OnCollisionExit(Collision collision)
     {
-
+        GameObject hit = collision.gameObject;
+        if (hit.tag == "resource")
+        {
+            //GameObject resource = transform.parent.gameObject;
+            if (resourcesOnTop.Contains(hit))
+            {
+                resourcesOnTop.Remove(hit);
+            } 
+        }
     }
-    public void Deactivate()
-    {
 
+
+    void FixedUpdate()
+    {
+        float dt = Time.fixedDeltaTime;
+        PushResources(resourcesOnTop, convSettings, dt);
+    }
+
+
+
+    private void PushResources(List<GameObject> resources, ConveyorSettings conveyorSettings, float dt)
+    {
+        for (int i = 0; i < resources.Count; i++)
+        {
+            GameObject resource = resources[i];
+            if (resource == null)
+            {
+                resources.Remove(resource);
+                i--;
+            }
+            else
+            {
+                Rigidbody rb = resource.GetComponent<Rigidbody>();
+                Vector3 difference = resource.transform.position - transform.position;
+                Vector3 adjNormDiff = Utils.AdjustRelativePos(difference.normalized, common.GetFacing(), false);
+                Vector3 push = Utils.AdjustRelativePos(conveyorSettings.CalculateAccel(rb.velocity.magnitude, dt) * conveyorSettings.CalculatePush(adjNormDiff), common.GetFacing(), true);
+                rb.velocity += push;
+            }
+        }
     }
 }

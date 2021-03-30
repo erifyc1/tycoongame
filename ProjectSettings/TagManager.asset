@@ -16,7 +16,7 @@ TagManager:
   - resourceHandler
   - gameManager
   - meshGenerator
-  - resourceTransformer
+  - resource
   layers:
   - Default
   - TransparentFX

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConveyorScriptRight : MonoBehaviour, IActivatable, IConveyor
+public class ConveyorScriptRight : MonoBehaviour, IActivatable
 {
     public Vector2 getAcceleration(Vector3 position)
     {

@@ -54,6 +54,8 @@ MonoBehaviour:
   - conv_m_both
   - conv_m_full
   - generator
+  - smelter
+  - sorter
   objPrefabs:
   - {fileID: 1665012793540104843, guid: a76ebfef5b749cc479883190d3a594d8, type: 3}
   - {fileID: 3686092454671043609, guid: 0335f1512c0233f43a8fcced37b8c574, type: 3}
@@ -64,8 +66,10 @@ MonoBehaviour:
   - {fileID: 5749780321485390662, guid: fd62e907ef3194c4a8d56c12a6bc0c5f, type: 3}
   - {fileID: 5795559695579671657, guid: a574792382af5b1428b06a5b9b62b3fd, type: 3}
   - {fileID: 4095270068480567721, guid: ec1965ca3e8472b4a86055015391abea, type: 3}
+  - {fileID: 3686092454671043609, guid: b940f1f134071df47a30514bccf0e587, type: 3}
+  - {fileID: 1788724405268693669, guid: 8c2dfa44c9c9d8a40b0287aab5c5eb04, type: 3}
   player: {fileID: 0}
-  debugCube: {fileID: 0}
+  debugCube: {fileID: 7433019738886299701, guid: 14cb99b8ae9e2c2428b6db1a467bacad, type: 3}
   debugCubeEnabled: 0
 --- !u!114 &3103252114682054921
 MonoBehaviour:

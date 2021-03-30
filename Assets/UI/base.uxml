@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="styles.uss" />
-    <ui:VisualElement style="height: 412px; width: 955px; left: 4px; right: auto; position: absolute; top: 0; align-items: flex-start;">
-        <ui:GroupBox style="height: 165px; width: 193px; background-image: url(&apos;/Assets/Art/arrow.png&apos;); align-items: flex-start;">
+    <ui:VisualElement style="height: 412px; width: 955px; left: 3px; right: auto; position: absolute; top: 14px; align-items: flex-start;">
+        <ui:GroupBox style="height: 188px; width: 213px; background-image: url(&apos;/Assets/Art/arrow.png&apos;); align-items: flex-start;">
             <ui:Label text="Label" display-tooltip-when-elided="true" />
             <ui:Label text="Label" display-tooltip-when-elided="true" style="height: 21px; width: 55px;" />
         </ui:GroupBox>
