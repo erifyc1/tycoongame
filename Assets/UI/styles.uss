@@ -1,0 +1,33 @@
+.main-window {
+	height: 400px;
+	width: 200px;
+	background-color: rgba(0, 0, 0 0.7);
+}
+
+.list {
+	flex-direction: column;
+}
+
+.recipie {
+	margin: 8px;
+	border-color: white;
+	flex-direction: row;
+}
+
+.slois {
+	--unity-image: url('../Art/Slois3.png');
+	height: 66px;
+	width: 66px;
+}
+
+.arrow {
+	--unity-image: url('../Art/arrow%20-%20nobg.png');
+	height: 66px;
+	width: 66px;
+}
+
+.faj {
+	--unity-image: url('../Art/fajors1.png');
+	height: 66px;
+	width: 66px;
+}

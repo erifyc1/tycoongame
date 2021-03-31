@@ -1,0 +1,24 @@
+<UXML xmlns="UnityEngine.UIElements" xmlns:ue="UnityEditor.UIElements" xmlns:c="../Scripts/UI/Components.cs" xsi="http://www.w3.org/2001/XMLSchema-instance"
+	engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+	editor-extension-mode="False">
+	<Style src="styles.uss"/>
+	<VisualElement class="main-window" name="root">
+		<VisualElement class="list">
+			<VisualElement class="recipie">
+				<Image class="slois"/>
+				<Image class="arrow"/>
+				<Image class="faj"/>
+			</VisualElement>
+			<VisualElement class="recipie">
+				<Image class="slois"/>
+				<Image class="arrow"/>
+				<Image class="faj"/>
+			</VisualElement>
+			<VisualElement class="recipie">
+				<Image class="slois"/>
+				<Image class="arrow"/>
+				<Image class="faj"/>
+			</VisualElement>
+		</VisualElement>
+	</VisualElement>
+</UXML>
