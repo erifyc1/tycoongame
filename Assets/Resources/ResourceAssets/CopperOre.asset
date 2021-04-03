@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: copperOre
   value: 5
-  model: {fileID: 0}
+  model: {fileID: 7044842026425024723, guid: 2a39e0a39d42b0e4389adcf1180b0807, type: 3}

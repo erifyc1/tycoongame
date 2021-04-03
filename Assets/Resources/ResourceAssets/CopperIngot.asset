@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: copperIngot
   value: 10
-  model: {fileID: 0}
+  model: {fileID: 8833890108206361728, guid: 5dfe10a61c6828e43858770b160a05b3, type: 3}
