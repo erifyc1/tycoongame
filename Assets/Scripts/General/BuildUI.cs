@@ -475,7 +475,7 @@ public class BuildUI : MonoBehaviour
 
     public void on6(InputAction.CallbackContext context)
     {
-        if (context.started) { }
+        if (context.started) BuildObject("splitter", false);
     }
     
     public void on7(InputAction.CallbackContext context)
