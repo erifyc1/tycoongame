@@ -17,12 +17,17 @@ public class TerrainGenerator : MonoBehaviour {
 
 	public Transform viewer;
 	public Material mapMaterial;
+	public GameManager gameManager;
 
 	Vector2 viewerPosition;
 	Vector2 viewerPositionOld;
 
 	float meshWorldSize;
 	int chunksVisibleInViewDst;
+
+	public OreType[] oreTypes;
+	public NoiseSettings oreNoiseSettings;
+	private float oreSpawnThreshold = 0.8f;
 
 	Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
 	List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
@@ -71,7 +76,21 @@ public class TerrainGenerator : MonoBehaviour {
 					if (terrainChunkDictionary.ContainsKey (viewedChunkCoord)) {
 						terrainChunkDictionary [viewedChunkCoord].UpdateTerrainChunk ();
 					} else {
-						TerrainChunk newChunk = new TerrainChunk (viewedChunkCoord,heightMapSettings,meshSettings, detailLevels, colliderLODIndex, transform, viewer, mapMaterial);
+						TerrainChunk newChunk = new TerrainChunk
+							(
+							viewedChunkCoord,
+							heightMapSettings,
+							meshSettings, 
+							detailLevels, 
+							colliderLODIndex, 
+							transform, 
+							viewer, 
+							gameManager,
+							mapMaterial, 
+							oreNoiseSettings,
+							oreTypes, 
+							oreSpawnThreshold
+							);
 						terrainChunkDictionary.Add (viewedChunkCoord, newChunk);
 						newChunk.onVisibilityChanged += OnTerrainChunkVisibilityChanged;
 						newChunk.Load ();

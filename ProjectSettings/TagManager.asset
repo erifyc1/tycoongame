@@ -17,6 +17,7 @@ TagManager:
   - gameManager
   - meshGenerator
   - resource
+  - oreGenerator
   layers:
   - Default
   - TransparentFX

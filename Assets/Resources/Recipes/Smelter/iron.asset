@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2d38d85cd36dbe43bb0c9f7576a80f7, type: 3}
-  m_Name: ironSmelting
+  m_Name: iron
   m_EditorClassIdentifier: 
   inputs:
   - {fileID: 11400000, guid: 0416a297f74b90a49b17ef5057be55b4, type: 2}

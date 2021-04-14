@@ -41,4 +41,9 @@ public class GameManager : MonoBehaviour
             timer = 0;
         }
     }
+
+    public void RunCoroutine(IEnumerator ienum)
+    {
+        StartCoroutine(ienum);
+    }
 }

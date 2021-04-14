@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class TerrainChunk {
 	
@@ -27,21 +28,43 @@ public class TerrainChunk {
 	HeightMapSettings heightMapSettings;
 	MeshSettings meshSettings;
 	Transform viewer;
+	GameManager gameManager;
 
-	public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer, Material material) {
+	ChunkOres chunkOres;
+
+	public TerrainChunk
+		(
+		Vector2 coord,
+		HeightMapSettings heightMapSettings,
+		MeshSettings meshSettings, 
+		LODInfo[] detailLevels, 
+		int colliderLODIndex, 
+		Transform parent, 
+		Transform viewer, 
+		GameManager gameManager,
+		Material material,
+		NoiseSettings oreNoiseSettings, //last 3 are ore related
+		OreType[] oreTypes, 
+		float oreSpawnThreshold
+		)
+	{
 		this.coord = coord;
 		this.detailLevels = detailLevels;
 		this.colliderLODIndex = colliderLODIndex;
 		this.heightMapSettings = heightMapSettings;
 		this.meshSettings = meshSettings;
 		this.viewer = viewer;
+		chunkOres = new ChunkOres(oreTypes, oreSpawnThreshold);
+
+
 
 		sampleCentre = coord * meshSettings.meshWorldSize / meshSettings.meshScale;
 		Vector2 position = coord * meshSettings.meshWorldSize ;
 		bounds = new Bounds(position,Vector2.one * meshSettings.meshWorldSize );
 
 
-		meshObject = new GameObject("Terrain Chunk");
+
+		meshObject = new GameObject("Terrain Chunk " + coord);
 		meshRenderer = meshObject.AddComponent<MeshRenderer>();
 		meshFilter = meshObject.AddComponent<MeshFilter>();
 		meshCollider = meshObject.AddComponent<MeshCollider>();
@@ -62,7 +85,22 @@ public class TerrainChunk {
 		}
 
 		maxViewDst = detailLevels [detailLevels.Length - 1].visibleDstThreshold;
+		chunkOres.GenerateOres(coord, meshSettings.meshWorldSize, meshSettings.meshScale, oreNoiseSettings);
+		gameManager.RunCoroutine(GenerateOreMeshes());
+	}
 
+
+	public IEnumerator GenerateOreMeshes()
+    {
+		yield return new WaitForSeconds(2);
+		if (meshObject.TryGetComponent(typeof(MeshFilter), out Component comp))
+		{
+			chunkOres.ShowOres(comp.GetComponent<MeshFilter>().mesh.vertices);
+		}
+		else
+		{
+			Debug.Log("no mesh");
+		}
 	}
 
 	public void Load() {
@@ -152,7 +190,6 @@ public class TerrainChunk {
 	public bool IsVisible() {
 		return meshObject.activeSelf;
 	}
-
 }
 
 class LODMesh {
@@ -170,7 +207,7 @@ class LODMesh {
 	void OnMeshDataReceived(object meshDataObject) {
 		mesh = ((MeshData)meshDataObject).CreateMesh ();
 		hasMesh = true;
-
+		
 		updateCallback ();
 	}
 
